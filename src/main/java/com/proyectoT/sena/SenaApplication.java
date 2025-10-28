@@ -1,13 +1,13 @@
-package co.edu.sena.I.C;
+package com.proyectoT.sena;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class SenaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(SenaApplication.class, args);
 	}
 
 }
