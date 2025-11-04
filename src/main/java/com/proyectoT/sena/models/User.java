@@ -75,19 +75,13 @@ public class User implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
-    // --- Relación Muchos a Muchos (Roles/Authorities) ---
-    
+    // --- Relación con tabla intermedia ---
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "app_user_authority",
-        joinColumns = { @JoinColumn(name = "user_id") },
-        inverseJoinColumns = { @JoinColumn(name = "authority_name") }
-    )
-    private Set<Authority> authorities = new HashSet<>();
-    
-    
+    private Set<UserAuthority> userAuthorities = new HashSet<>();
+
     @OneToOne(mappedBy = "user")
     @JsonIgnore
     private Person person;
 }
+

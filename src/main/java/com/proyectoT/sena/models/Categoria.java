@@ -2,7 +2,6 @@ package com.proyectoT.sena.models;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set; // Preferiblemente usar Set para @OneToMany
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

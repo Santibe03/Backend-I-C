@@ -43,7 +43,7 @@ public class Reservacion implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "condition_id", nullable = false)
-    private Condition condition; 
+    private Condicion condition; 
 
     @ManyToOne(optional = false)
     @NotNull

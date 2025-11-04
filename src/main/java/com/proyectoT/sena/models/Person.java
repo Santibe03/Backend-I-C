@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -24,8 +23,6 @@ public class Person {
     @Column(name = "id_person")
     private Long id;
 
-    
-
     @NotNull
     @Column(name = "document_number", nullable = false, unique = true)
     private Long documentNumber;
@@ -41,8 +38,8 @@ public class Person {
 
     @NotNull
     @Size(max = 50)
-    @Column(name = "firt_last_name", length = 50, nullable = false)
-    private String firtLastName; 
+    @Column(name = "first_last_name", length = 50, nullable = false) // Corrección aquí
+    private String firstLastName;
 
     @Size(max = 50)
     @Column(name = "second_last_name", length = 50)
@@ -55,29 +52,25 @@ public class Person {
     @Column(name = "born_date")
     private LocalDate bornDate;
 
-  
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @NotNull
-    @JoinColumn(name = "user_id", unique = true) 
-    private User user; 
-
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "document_type_id")
     private TipoDocumento documentType;
 
-
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-    @JsonIgnore 
-    private Set<Ingresos> incomes = new HashSet<>(); 
-
-    
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Factura> bills = new HashSet<>(); 
+    private Set<Ingresos> incomes = new HashSet<>();
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Reservacion> reservations = new HashSet<>(); 
+    private Set<Factura> bills = new HashSet<>();
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Reservacion> reservations = new HashSet<>();
 }

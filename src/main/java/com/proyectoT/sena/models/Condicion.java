@@ -30,7 +30,6 @@ public class Condicion implements Serializable {
     @Column(name = "condition_name", length = 20, nullable = false, unique = true) 
     private String conditionName;
 
-   
     @OneToMany(mappedBy = "condition", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Orden> orders = new HashSet<>(); 

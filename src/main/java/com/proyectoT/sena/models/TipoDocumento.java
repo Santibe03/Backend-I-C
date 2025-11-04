@@ -36,13 +36,11 @@ public class TipoDocumento implements Serializable {
     private String documentName;
 
     @NotNull
-    @Enumerated(EnumType.STRING) 
     @Column(name = "state_document_type", nullable = false)
-    private Condicion stateDocumentType; 
+    private String stateDocumentType; 
     
     
-    @OneToMany(mappedBy = "documentType", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<Person> people = new HashSet<>(); 
+    @OneToMany(mappedBy = "documentType")
+    private Set<Person> people;
 }
 
