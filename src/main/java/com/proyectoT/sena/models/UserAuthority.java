@@ -18,7 +18,7 @@ public class UserAuthority implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private UserAuthority id = new UserAuthority();
+    private UserAuthorityId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
@@ -30,7 +30,7 @@ public class UserAuthority implements Serializable {
     @JoinColumn(name = "authority_name")
     private Authority authority;
 
-    // Campo adicional opcional (puedes quitarlo si no lo necesitas)
+    // Campo adicional opcional
     @Column(name = "granted_date")
     private Instant grantedDate = Instant.now();
 }
