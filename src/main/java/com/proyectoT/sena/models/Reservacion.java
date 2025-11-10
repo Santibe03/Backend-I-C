@@ -50,3 +50,4 @@ public class Reservacion implements Serializable {
     @JoinColumn(name = "bar_table_id", nullable = false)
     private BarraMesa barTable; 
 }
+
