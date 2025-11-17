@@ -1,17 +1,20 @@
 package com.proyectoT.sena.service;
 
-import com.proyectoT.sena.dtos.ReservacionDTO;
+import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import com.proyectoT.sena.dtos.ReservacionDTO;
 
 public interface ReservacionService {
-    ReservacionDTO save(ReservacionDTO reservacionDTO);
-    ReservacionDTO update(ReservacionDTO reservacionDTO);
-    Optional<ReservacionDTO> partialUpdate(ReservacionDTO reservacionDTO);
-    Page<ReservacionDTO> findAll(Pageable pageable);
-    Page<ReservacionDTO> findAllWithEagerRelationships(Pageable pageable);
-    Optional<ReservacionDTO> findOne(Long id);
-    void delete(Long id);
 
+    ReservacionDTO save(ReservacionDTO dto);
+
+    ReservacionDTO update(ReservacionDTO dto);
+
+    Optional<ReservacionDTO> findOne(Long id);
+
+    List<ReservacionDTO> findAll();
+
+    void delete(Long id);
 }
+
