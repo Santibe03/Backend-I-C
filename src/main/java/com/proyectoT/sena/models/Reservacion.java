@@ -3,7 +3,6 @@ package com.proyectoT.sena.models;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.concurrent.locks.Condition;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
