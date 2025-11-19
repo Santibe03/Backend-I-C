@@ -23,6 +23,7 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
                     "/swagger-resources/**",
+                    "/api/**", // rutas públicas
                     "/webjars/**",
                     "/api/authenticate",   // login público
                     "/actuator/**"
