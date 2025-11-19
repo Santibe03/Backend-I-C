@@ -18,12 +18,12 @@ public class MedidasController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<MedidasDTO> create(@RequestBody MedidasDTO dto) {
         return ResponseEntity.ok(service.save(dto));
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<MedidasDTO> update(@RequestBody MedidasDTO dto) {
         return ResponseEntity.ok(service.update(dto));
     }
@@ -35,7 +35,7 @@ public class MedidasController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<MedidasDTO>> getAll() {
         return ResponseEntity.ok(service.findAll());
     }

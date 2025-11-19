@@ -32,7 +32,7 @@ public class Categoria implements Serializable {
     private String catNam;
 
   
-    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Insumo> insumos = new HashSet<>(); // Inicializar con HashSet
 }
