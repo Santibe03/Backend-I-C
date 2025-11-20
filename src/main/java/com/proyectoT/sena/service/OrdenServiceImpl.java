@@ -1,4 +1,4 @@
-package com.proyectoT.sena.service.impl;
+package com.proyectoT.sena.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,6 @@ import com.proyectoT.sena.models.Condicion;
 import com.proyectoT.sena.repositoryes.OrdenRepository;
 import com.proyectoT.sena.repositoryes.MesaRepository;
 import com.proyectoT.sena.repositoryes.CondicionRepository;
-import com.proyectoT.sena.service.OrdenService;
 
 import lombok.RequiredArgsConstructor;
 
