@@ -5,8 +5,8 @@ import com.proyectoT.sena.models.BarraMesa;
 
 public interface BarraMesaMapper {
 
-    BarraMesa toEntity(BarraMesaDTO dto);
-
     BarraMesaDTO toDto(BarraMesa entity);
+
+    BarraMesa toEntity(BarraMesaDTO dto);
 }
 

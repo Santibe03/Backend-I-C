@@ -19,11 +19,7 @@ public class PersonDTO {
     private Long phoneNumber;
     private LocalDate bornDate;
 
-    // Relaciones representadas por ID
     private Long userId;
     private Long documentTypeId;
-
-    // Campos opcionales descriptivos
-    private String userLogin;
-    private String documentTypeName;
 }
+

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +22,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapperImpl userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO save(UserDTO dto) {
         User entity = userMapper.toEntity(dto);
+
+        // Encriptar la contraseña si viene en el DTO
+        if (entity.getPassword() != null && !entity.getPassword().isEmpty()) {
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        }
+
         entity = userRepository.save(entity);
         return userMapper.toDto(entity);
     }
@@ -32,6 +40,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO update(UserDTO dto) {
         User entity = userMapper.toEntity(dto);
+
+        // Encriptar la contraseña solo si viene en el update
+        if (entity.getPassword() != null && !entity.getPassword().isEmpty()) {
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        }
+
         entity = userRepository.save(entity);
         return userMapper.toDto(entity);
     }

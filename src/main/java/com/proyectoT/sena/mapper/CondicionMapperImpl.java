@@ -1,8 +1,9 @@
 package com.proyectoT.sena.mapper;
 
 import org.springframework.stereotype.Component;
-import com.proyectoT.sena.models.Condicion;
+
 import com.proyectoT.sena.dtos.CondicionDTO;
+import com.proyectoT.sena.models.Condicion;
 
 @Component
 public class CondicionMapperImpl implements CondicionMapper {
@@ -15,10 +16,6 @@ public class CondicionMapperImpl implements CondicionMapper {
         dto.setId(entity.getId());
         dto.setConditionName(entity.getConditionName());
 
-        // Datos derivados opcionales
-        dto.setTotalOrders(entity.getOrders() != null ? entity.getOrders().size() : 0);
-        dto.setTotalReservations(entity.getReservations() != null ? entity.getReservations().size() : 0);
-
         return dto;
     }
 
@@ -30,8 +27,6 @@ public class CondicionMapperImpl implements CondicionMapper {
         entity.setId(dto.getId());
         entity.setConditionName(dto.getConditionName());
 
-        // No seteamos orders ni reservations
         return entity;
     }
 }
-

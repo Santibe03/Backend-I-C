@@ -11,9 +11,4 @@ public class BarraMesaDTO {
 
     private Long id;
     private Boolean avalabily;
-    private Integer share;
-
-    // Campos opcionales de resumen
-    private Integer totalOrders;
-    private Integer totalReservations;
 }
