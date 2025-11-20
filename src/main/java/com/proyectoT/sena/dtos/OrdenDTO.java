@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdenDTO {
-
     private Long id;
     private LocalDate date;
 
-    // IDs de las relaciones
-    private Long barTableId;
-    private Long conditionId;
+    // relaciones por id
+    private Long barraMesaId;
+    private Long condicionId;
 
-    // Campos opcionales descriptivos
-    private String tableNumber;
-    private String conditionName;
+    // campos opcionales para vistas
+    private String barraMesaNombre;
+    private String condicionNombre;
+    private Integer cantidadProductos;
 }
