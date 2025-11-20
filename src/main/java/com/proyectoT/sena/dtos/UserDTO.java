@@ -16,12 +16,16 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
+
+    // NUEVO: password solo para recibir del cliente
+    private String password;
+
     private boolean activated;
     private String langKey;
     private String imageUrl;
     private Instant resetDate;
 
-    // Si quieres incluir los roles o authorities (solo nombres)
     private Set<String> authorities;
 }
+
 

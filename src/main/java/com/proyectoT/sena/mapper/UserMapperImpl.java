@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 import com.proyectoT.sena.dtos.UserDTO;
 import com.proyectoT.sena.models.User;
 
-
-@Component
+   @Component
 public class UserMapperImpl implements UserMapper {
 
     @Override
@@ -21,6 +20,8 @@ public class UserMapperImpl implements UserMapper {
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setEmail(user.getEmail());
+        // NO devolvemos la contraseña por seguridad
+        dto.setPassword(null);
         dto.setActivated(user.isActivated());
         dto.setLangKey(user.getLangKey());
         dto.setImageUrl(user.getImageUrl());
@@ -46,6 +47,8 @@ public class UserMapperImpl implements UserMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
+        // Aquí sí se asigna la contraseña del DTO
+        user.setPassword(dto.getPassword());
         user.setActivated(dto.isActivated());
         user.setLangKey(dto.getLangKey());
         user.setImageUrl(dto.getImageUrl());
@@ -54,4 +57,5 @@ public class UserMapperImpl implements UserMapper {
         return user;
     }
 }
+
 
