@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "shtp_order") 
+@Table(name = "shtp_order")
 public class Orden implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,21 +26,21 @@ public class Orden implements Serializable {
     @Column(name = "id_orden")
     private Long id;
 
-    @Column(name = "date")
+    @NotNull
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "bar_table_id", nullable = false)
-    private BarraMesa barTable; 
+    private BarraMesa barTable;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "condition_id", nullable = false)
-    private Condicion condition; 
+    private Condicion condition;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    @JsonIgnore // Para evitar ciclos de serialización JSON
-    private Set<OrdenProducto> orderProducts = new HashSet<>(); 
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<OrdenProducto> orderProducts = new HashSet<>();
 }
