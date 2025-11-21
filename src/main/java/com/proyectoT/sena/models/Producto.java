@@ -27,12 +27,12 @@ public class Producto implements Serializable {
 
     @Size(max = 55)
     @Column(name = "name", length = 55)
-    private String name; 
+    private String name;
 
     @Column(name = "price")
     private Integer price;
 
-    @Lob // Para manejar grandes objetos binarios (imágenes/archivos)
+    @Lob
     @NotNull
     @Column(name = "product_image", nullable = false)
     private byte[] productImage;
@@ -41,17 +41,14 @@ public class Producto implements Serializable {
     @Column(name = "product_image_content_type", nullable = false)
     private String productImageContentType;
 
-   
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<InsumosProducto> productInputs = new HashSet<>();
 
-   
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<OrdenProducto> orderProducts = new HashSet<>();
 
-   
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<ProductoFactura> productBills = new HashSet<>();
