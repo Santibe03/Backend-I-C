@@ -13,11 +13,10 @@ public class ProductoFacturaDTO {
     private Integer amount;
     private Integer price;
 
-    // IDs de las relaciones
     private Long productId;
     private Long billId;
 
-    // Campos opcionales descriptivos
+    // Información opcional
     private String productName;
-    private String billNumber;
 }
+

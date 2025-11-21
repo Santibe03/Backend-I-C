@@ -7,15 +7,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdenProductoDTO {
+public class InsumosProductoDTO {
 
     private Long id;
     private Integer amount;
-    private Integer price;
+
+    private Long inputId;
+    private String inputNombre;   // Insumo.nombre
 
     private Long productId;
-    private Long orderId;
+    private String productName;   // Producto.name
 
-    // Opcionales para mostrar nombres
-    private String productName;
+    private Long measureId;
+    private String measureNombre; // Medidas.medNam
 }
+

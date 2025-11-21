@@ -1,5 +1,6 @@
 package com.proyectoT.sena.controllers;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,7 @@ public class ProductoController {
 
     private final ProductoService productoService;
 
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductoDTO> create(
             @RequestPart("name") String name,
             @RequestPart("price") Integer price,
@@ -30,7 +31,7 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.save(dto));
     }
 
-    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductoDTO> update(
             @PathVariable Long id,
             @RequestPart("name") String name,

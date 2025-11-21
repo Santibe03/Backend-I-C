@@ -7,15 +7,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdenProductoDTO {
+public class IngresoInsumoDTO {
 
     private Long id;
     private Integer amount;
-    private Integer price;
 
-    private Long productId;
-    private Long orderId;
+    private Long inputId;
+    private String inputName;
 
-    // Opcionales para mostrar nombres
-    private String productName;
+    private Long measureId;
+    private String measureName;
+
+    private Long incomeId;
 }
