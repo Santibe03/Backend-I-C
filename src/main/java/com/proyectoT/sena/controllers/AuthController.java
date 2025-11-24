@@ -5,30 +5,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import com.proyectoT.sena.repositoryes.UserRepository;
-import com.proyectoT.sena.service.JwtService;
-
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api")
 @CrossOrigin("*")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    // -------- LOGIN --------
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
-
+    @PostMapping("/authenticate")
+    public AuthResponse authenticate(@RequestBody LoginRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -37,17 +25,14 @@ public class AuthController {
                     )
             );
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtService.generarToken(userDetails);
-
-            return new AuthResponse(token);
+            return new AuthResponse("LOGIN_OK");
 
         } catch (AuthenticationException e) {
             return new AuthResponse("ERROR: Credenciales incorrectas");
         }
     }
 
-    // -------- REQUEST DTO --------
+    // DTO de Request
     public static class LoginRequest {
         private String login;
         private String password;
@@ -59,13 +44,13 @@ public class AuthController {
         public void setPassword(String password) { this.password = password; }
     }
 
-    // -------- RESPONSE DTO --------
+    // DTO Response
     public static class AuthResponse {
-        private String token;
+        private String message;
 
-        public AuthResponse(String token) { this.token = token; }
+        public AuthResponse(String message) { this.message = message; }
 
-        public String getToken() { return token; }
-        public void setToken(String token) { this.token = token; }
+        public String getMessage() { return message; }
+        public void setMessage(String message) { this.message = message; }
     }
 }

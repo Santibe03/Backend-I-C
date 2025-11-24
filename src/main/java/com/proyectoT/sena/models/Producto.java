@@ -32,14 +32,8 @@ public class Producto implements Serializable {
     @Column(name = "price")
     private Integer price;
 
-    @Lob
-    @NotNull
-    @Column(name = "product_image", nullable = false)
-    private byte[] productImage;
-
-    @NotNull
-    @Column(name = "product_image_content_type", nullable = false)
-    private String productImageContentType;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore

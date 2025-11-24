@@ -1,6 +1,10 @@
 package com.proyectoT.sena.service;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,61 +24,52 @@ public class ProductoServiceImpl implements ProductoService {
     private final ProductoRepository productoRepository;
     private final ProductoMapper productoMapper;
 
+    private final String UPLOAD_DIR = "uploads/productos/";
+
     @Override
-    public ProductoDTO save(ProductoDTO dto) {
+    public ProductoDTO save(ProductoDTO dto, MultipartFile image) {
         try {
-            MultipartFile file = dto.getProductImage();
-            byte[] bytes = file.getBytes();
-            String contentType = file.getContentType();
+            Producto product = productoMapper.toEntity(dto);
 
-            Producto producto = productoMapper.toEntity(dto, bytes, contentType);
-            Producto saved = productoRepository.save(producto);
+            if (image != null && !image.isEmpty()) {
+                String fileName = saveImage(image);
+                product.setImageUrl(fileName);
+            }
 
-            return productoMapper.toDto(saved);
+            return productoMapper.toDto(productoRepository.save(product));
 
-        } catch (IOException e) {
-            throw new RuntimeException("Error procesando la imagen");
+        } catch (Exception e) {
+            throw new RuntimeException("Error al guardar producto");
         }
     }
 
     @Override
-    public ProductoDTO update(Long id, ProductoDTO dto) {
-        Producto producto = productoRepository.findById(id)
+    public ProductoDTO update(Long id, ProductoDTO dto, MultipartFile image) {
+
+        Producto product = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        try {
-            MultipartFile file = dto.getProductImage();
-            byte[] bytes = file.getBytes();
-            String contentType = file.getContentType();
+        product.setName(dto.getName());
+        product.setPrice(dto.getPrice());
 
-            producto.setName(dto.getName());
-            producto.setPrice(dto.getPrice());
-            producto.setProductImage(bytes);
-            producto.setProductImageContentType(contentType);
-
-            productoRepository.save(producto);
-
-            return productoMapper.toDto(producto);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Error procesando la imagen");
+        if (image != null && !image.isEmpty()) {
+            String fileName = saveImage(image);
+            product.setImageUrl(fileName);
         }
+
+        return productoMapper.toDto(productoRepository.save(product));
     }
 
     @Override
     public void delete(Long id) {
-        if (!productoRepository.existsById(id)) {
-            throw new RuntimeException("Producto no encontrado");
-        }
         productoRepository.deleteById(id);
     }
 
     @Override
     public ProductoDTO findById(Long id) {
-        Producto producto = productoRepository.findById(id)
+        return productoRepository.findById(id)
+                .map(productoMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-
-        return productoMapper.toDto(producto);
     }
 
     @Override
@@ -83,5 +78,22 @@ public class ProductoServiceImpl implements ProductoService {
                 .stream()
                 .map(productoMapper::toDto)
                 .toList();
+    }
+
+    private String saveImage(MultipartFile image) {
+        try {
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+
+            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            Path path = Paths.get(UPLOAD_DIR + fileName);
+
+            Files.write(path, image.getBytes());
+
+            return fileName;
+
+        } catch (IOException e) {
+            throw new RuntimeException("No se pudo guardar la imagen");
+        }
     }
 }
