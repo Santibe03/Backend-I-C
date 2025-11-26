@@ -4,6 +4,7 @@ import com.proyectoT.sena.dtos.UserDTO;
 import com.proyectoT.sena.models.User;
 
 public interface UserMapper {
-    UserDTO toDto(User user);
+    UserDTO toDTO(User user);
     User toEntity(UserDTO dto);
 }
+

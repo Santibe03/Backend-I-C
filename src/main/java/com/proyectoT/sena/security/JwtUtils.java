@@ -8,8 +8,8 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final String SECRET = "MI_SECRETO_SUPER_SEGURO";
-    private final long EXPIRATION = 1000 * 60 * 60 * 24; // 24h
+    private final String SECRET = "MI_SECRETO_SUPER_SEGURO_12345";
+    private final long EXPIRATION = 86400000; // 24 horas
 
     public String generateToken(String username) {
         return Jwts.builder()
@@ -21,7 +21,8 @@ public class JwtUtils {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser().setSigningKey(SECRET)
+        return Jwts.parser()
+                .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -35,5 +36,11 @@ public class JwtUtils {
             return false;
         }
     }
+
+    // TOKEN SIMPLE PARA ACTIVACIÓN Y RESET
+    public String generateSimpleToken() {
+        return Long.toHexString(Double.doubleToLongBits(Math.random())).substring(0, 20);
+    }
 }
+
 

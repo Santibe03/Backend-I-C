@@ -67,15 +67,15 @@ public class User implements Serializable {
     @Column(name = "activation_key", length = 20)
     private String activationKey;
 
+    // --- CAMBIO IMPORTANTE: Aumentado a 64 para tokens UUID ---
     @JsonIgnore
-    @Size(max = 20)
-    @Column(name = "reset_key", length = 20)
+    @Size(max = 64)
+    @Column(name = "reset_key", length = 64)
     private String resetKey;
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
-    // --- Relación con tabla intermedia ---
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<UserAuthority> userAuthorities = new HashSet<>();
@@ -84,4 +84,3 @@ public class User implements Serializable {
     @JsonIgnore
     private Person person;
 }
-

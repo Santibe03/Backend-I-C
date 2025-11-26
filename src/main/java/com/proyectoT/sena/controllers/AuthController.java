@@ -1,56 +1,81 @@
 package com.proyectoT.sena.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.proyectoT.sena.dtos.UserDTO;
+import com.proyectoT.sena.service.JwtService;
+import com.proyectoT.sena.service.UserService;
+import com.proyectoT.sena.service.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin("*")
+@RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final JwtService jwtService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    @PostMapping("/authenticate")
-    public AuthResponse authenticate(@RequestBody LoginRequest request) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getLogin(),
-                            request.getPassword()
-                    )
-            );
+    // LOGIN: Devuelve el Token JWT
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
+        );
 
-            return new AuthResponse("LOGIN_OK");
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getLogin());
+        String token = jwtService.generarToken(userDetails);
 
-        } catch (AuthenticationException e) {
-            return new AuthResponse("ERROR: Credenciales incorrectas");
-        }
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 
-    // DTO de Request
+    // REGISTRO
+    @PostMapping("/register")
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDto) {
+        return ResponseEntity.ok(userService.save(userDto));
+    }
+
+    // RECUPERAR: Paso 1 (Pedir token)
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        userService.requestPasswordReset(email).ifPresent(user -> {
+            // AQUÍ IRÍA EL ENVÍO DE CORREO REAL.
+            // Por ahora imprimimos en consola para que pruebes
+            System.out.println("------------------------------------------------");
+            System.out.println("TOKEN DE RECUPERACIÓN PARA " + email + ": " + user.getResetKey());
+            System.out.println("------------------------------------------------");
+        });
+        return ResponseEntity.ok("Si el correo existe, se han enviado instrucciones.");
+    }
+
+    // RECUPERAR: Paso 2 (Usar token y nueva contraseña)
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetRequest resetRequest) {
+        userService.completePasswordReset(resetRequest.getNewPassword(), resetRequest.getToken());
+        return ResponseEntity.ok("Contraseña actualizada correctamente.");
+    }
+
+    // Clases DTO internas para recibir datos limpios
+    @lombok.Data
     public static class LoginRequest {
         private String login;
         private String password;
-
-        public String getLogin() { return login; }
-        public void setLogin(String login) { this.login = login; }
-
-        public String getPassword() { return password; }
-        public void setPassword(String password) { this.password = password; }
     }
 
-    // DTO Response
+    @lombok.Data
+    @lombok.AllArgsConstructor
     public static class AuthResponse {
-        private String message;
+        private String token;
+    }
 
-        public AuthResponse(String message) { this.message = message; }
-
-        public String getMessage() { return message; }
-        public void setMessage(String message) { this.message = message; }
+    @lombok.Data
+    public static class ResetRequest {
+        private String token;
+        private String newPassword;
     }
 }

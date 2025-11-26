@@ -1,15 +1,13 @@
 package com.proyectoT.sena.controllers;
 
-import java.util.List;
-
+import com.proyectoT.sena.dtos.UserDTO;
+import com.proyectoT.sena.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import com.proyectoT.sena.service.UserService;
-import com.proyectoT.sena.dtos.UserDTO;
-
-import lombok.RequiredArgsConstructor;
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,30 +18,32 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO dto) {
-        UserDTO result = userService.save(dto);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(
-            @PathVariable Long id,
-            @RequestBody UserDTO dto) {
-
-        dto.setId(id);
-        UserDTO result = userService.update(dto);
-        return ResponseEntity.ok(result);
+        UserDTO created = userService.save(dto);
+        return ResponseEntity
+                .created(URI.create("/api/users/" + created.getId()))
+                .body(created);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> get(@PathVariable Long id) {
-        return userService.findOne(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                userService.findById(id)
+        );
     }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAll() {
         return ResponseEntity.ok(userService.findAll());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> update(
+            @PathVariable Long id,
+            @RequestBody UserDTO dto
+    ) {
+        return ResponseEntity.ok(
+                userService.update(id, dto)
+        );
     }
 
     @DeleteMapping("/{id}")
@@ -52,3 +52,5 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 }
+
+

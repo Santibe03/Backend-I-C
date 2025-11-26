@@ -1,5 +1,6 @@
 package com.proyectoT.sena.mapper;
 
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -7,11 +8,11 @@ import org.springframework.stereotype.Component;
 import com.proyectoT.sena.dtos.UserDTO;
 import com.proyectoT.sena.models.User;
 
-   @Component
+@Component
 public class UserMapperImpl implements UserMapper {
 
     @Override
-    public UserDTO toDto(User user) {
+    public UserDTO toDTO(User user) {
         if (user == null) return null;
 
         UserDTO dto = new UserDTO();
@@ -20,19 +21,26 @@ public class UserMapperImpl implements UserMapper {
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setEmail(user.getEmail());
-        // NO devolvemos la contraseña por seguridad
+
+        // Nunca se debe enviar la contraseña al front
         dto.setPassword(null);
+
         dto.setActivated(user.isActivated());
         dto.setLangKey(user.getLangKey());
         dto.setImageUrl(user.getImageUrl());
         dto.setResetDate(user.getResetDate());
 
-        dto.setAuthorities(
-            user.getUserAuthorities()
-                .stream()
-                .map(ua -> ua.getAuthority().getName())
-                .collect(Collectors.toSet())
-        );
+        // Evita null pointer si no hay authorities
+        if (user.getUserAuthorities() != null) {
+            dto.setAuthorities(
+                user.getUserAuthorities()
+                    .stream()
+                    .map(ua -> ua.getAuthority().getName())
+                    .collect(Collectors.toSet())
+            );
+        } else {
+            dto.setAuthorities(Collections.emptySet());
+        }
 
         return dto;
     }
@@ -47,12 +55,17 @@ public class UserMapperImpl implements UserMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
-        // Aquí sí se asigna la contraseña del DTO
+
+        // Aquí sí guardamos la contraseña
         user.setPassword(dto.getPassword());
+
         user.setActivated(dto.isActivated());
         user.setLangKey(dto.getLangKey());
         user.setImageUrl(dto.getImageUrl());
         user.setResetDate(dto.getResetDate());
+
+        // OJO: Authorities NO se asignan aquí  
+        // porque eso se hace en el servicio para evitar bugs y duplicados
 
         return user;
     }
