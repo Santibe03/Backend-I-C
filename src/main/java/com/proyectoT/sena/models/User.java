@@ -40,10 +40,37 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
+    
+    // --- NUEVO ---
+    @Size(max = 50)
+    @Column(name = "second_name", length = 50)
+    private String secondName;
+    // -------------
 
     @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;
+
+    // --- NUEVOS CAMPOS ---
+    @Size(max = 50)
+    @Column(name = "second_last_name", length = 50)
+    private String secondLastName;
+
+    @Size(max = 10)
+    @Column(name = "document_type", length = 10)
+    private String documentType;
+
+    @Size(max = 20)
+    @Column(name = "document_number", length = 20)
+    private String documentNumber;
+
+    @Size(max = 20)
+    @Column(name = "phone", length = 20)
+    private String phone;
+
+    @Column(name = "birth_date")
+    private String birthDate;
+    // ---------------------
 
     @Email
     @Size(min = 5, max = 254)
@@ -67,7 +94,6 @@ public class User implements Serializable {
     @Column(name = "activation_key", length = 20)
     private String activationKey;
 
-    // --- CAMBIO IMPORTANTE: Aumentado a 64 para tokens UUID ---
     @JsonIgnore
     @Size(max = 64)
     @Column(name = "reset_key", length = 64)
