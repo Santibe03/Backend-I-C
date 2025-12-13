@@ -12,9 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.proyectoT.sena.dtos.PersonDTO;
+import com.proyectoT.sena.dtos.RegisterRequestDTO;
 import com.proyectoT.sena.dtos.UserDTO;
+import com.proyectoT.sena.mapper.PersonMapper;
 import com.proyectoT.sena.mapper.UserMapper;
+import com.proyectoT.sena.models.Person;
 import com.proyectoT.sena.models.User;
+import com.proyectoT.sena.repositoryes.PersonRepository;
 import com.proyectoT.sena.repositoryes.UserRepository;
 
 @Service
@@ -23,7 +28,9 @@ import com.proyectoT.sena.repositoryes.UserRepository;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PersonRepository personRepository;
     private final UserMapper userMapper;
+    private final PersonMapper personMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -73,6 +80,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public UserDTO registerUser(RegisterRequestDTO dto) {
+        // 1. Crear y guardar el usuario
+        UserDTO userDto = dto.getUser();
+        User userEntity = userMapper.toEntity(userDto);
+        userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userEntity.setActivated(true); // O la lógica que prefieras
+        User savedUser = userRepository.save(userEntity);
+
+        // 2. Crear y guardar la persona, asociando el usuario
+        PersonDTO personDto = dto.getPerson();
+        Person personEntity = personMapper.toEntity(personDto);
+        personEntity.setUser(savedUser); // Asociar el usuario guardado
+        personRepository.save(personEntity);
+
+        return userMapper.toDTO(savedUser);
     }
 
     // --- LÓGICA DE RECUPERACIÓN DE CONTRASEÑA ---

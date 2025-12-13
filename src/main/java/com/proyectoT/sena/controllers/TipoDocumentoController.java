@@ -9,7 +9,7 @@ import com.proyectoT.sena.dtos.TipoDocumentoDTO;
 import com.proyectoT.sena.service.TipoDocumentoService;
 
 @RestController
-@RequestMapping("/api/tipo-documento")
+@RequestMapping("/api/tipo-documentos")
 public class TipoDocumentoController {
 
     private final TipoDocumentoService service;

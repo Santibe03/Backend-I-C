@@ -1,5 +1,6 @@
 package com.proyectoT.sena.controllers;
 
+import com.proyectoT.sena.dtos.RegisterRequestDTO;
 import com.proyectoT.sena.dtos.UserDTO;
 import com.proyectoT.sena.service.JwtService;
 import com.proyectoT.sena.service.UserService;
@@ -36,8 +37,9 @@ public class AuthController {
 
     // REGISTRO
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDto) {
-        return ResponseEntity.ok(userService.save(userDto));
+    public ResponseEntity<UserDTO> register(@RequestBody RegisterRequestDTO requestDTO) {
+        UserDTO registeredUser = userService.registerUser(requestDTO);
+        return ResponseEntity.ok(registeredUser);
     }
 
     // RECUPERAR: Paso 1 (Pedir token)

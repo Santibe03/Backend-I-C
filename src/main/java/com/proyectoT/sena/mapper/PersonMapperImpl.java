@@ -6,9 +6,15 @@ import com.proyectoT.sena.dtos.PersonDTO;
 import com.proyectoT.sena.models.Person;
 import com.proyectoT.sena.models.TipoDocumento;
 import com.proyectoT.sena.models.User;
+import com.proyectoT.sena.repositoryes.TipoDocumentoRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class PersonMapperImpl implements PersonMapper {
+
+    private final TipoDocumentoRepository tipoDocumentoRepository;
 
     @Override
     public PersonDTO toDto(Person entity) {
@@ -55,9 +61,9 @@ public class PersonMapperImpl implements PersonMapper {
         }
 
         if (dto.getDocumentTypeId() != null) {
-            TipoDocumento td = new TipoDocumento();
-            td.setId(dto.getDocumentTypeId());
-            p.setDocumentType(td);
+            TipoDocumento tipoDocumento = tipoDocumentoRepository.findById(dto.getDocumentTypeId())
+                .orElseThrow(() -> new RuntimeException("Tipo de documento no encontrado con id: " + dto.getDocumentTypeId()));
+            p.setDocumentType(tipoDocumento);
         }
 
         return p;

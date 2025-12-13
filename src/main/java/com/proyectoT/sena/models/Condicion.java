@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "condition") // Nombre de tabla estandarizado a 'condition'
+@Table(name = "product_condition") // Renombrada para evitar palabra reservada de SQL
 public class Condicion implements Serializable {
 
     private static final long serialVersionUID = 1L;
