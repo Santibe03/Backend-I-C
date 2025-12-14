@@ -21,5 +21,5 @@ public class PersonDTO {
 
     private Long userId;
     private Long documentTypeId;
+    private String documentTypeName;
 }
-

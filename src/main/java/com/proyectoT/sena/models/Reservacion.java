@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "reservation") 
+@Table(name = "reservation")
 public class Reservacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,20 +33,17 @@ public class Reservacion implements Serializable {
     @Column(name = "attendat")
     private Integer attendat;
 
-   
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "person_id", nullable = false)
-    private Person person; 
+    private Person person;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JoinColumn(name = "condition_id", nullable = false)
-    private Condicion condition; 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "condition_status", nullable = false)
+    private com.proyectoT.sena.models.enums.ReservationCondition condition;
 
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "bar_table_id", nullable = false)
-    private BarraMesa barTable; 
+    private BarraMesa barTable;
 }
-

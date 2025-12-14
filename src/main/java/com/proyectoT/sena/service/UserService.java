@@ -8,9 +8,13 @@ import com.proyectoT.sena.models.User;
 
 public interface UserService {
     UserDTO save(UserDTO dto);
+
     UserDTO update(Long id, UserDTO dto);
+
     UserDTO findById(Long id);
+
     List<UserDTO> findAll();
+
     void delete(Long id);
 
     // --- MÉTODO PARA REGISTRO COMPLETO ---
@@ -18,5 +22,8 @@ public interface UserService {
 
     // --- NUEVOS MÉTODOS PARA RECUPERACIÓN ---
     Optional<User> requestPasswordReset(String mail);
+
     User completePasswordReset(String newPassword, String key);
+
+    Optional<User> findByEmail(String email);
 }

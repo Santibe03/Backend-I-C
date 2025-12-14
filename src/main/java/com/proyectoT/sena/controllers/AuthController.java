@@ -26,13 +26,27 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
-        );
+                new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getLogin());
         String token = jwtService.generarToken(userDetails);
 
-        return ResponseEntity.ok(new AuthResponse(token));
+        // Fetch user properly to get person ID
+        com.proyectoT.sena.models.User user = userService.findByEmail(request.getLogin())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Long personId = user.getPerson() != null ? user.getPerson().getId() : null;
+
+        String role = userDetails.getAuthorities().stream().findFirst().map(a -> a.getAuthority())
+                .orElse("ROLE_CLIENT");
+        // Simple mapping
+        String mappedRole = "client";
+        if (role.contains("ADMIN"))
+            mappedRole = "admin";
+        else if (role.contains("EMPLOYEE"))
+            mappedRole = "employee";
+
+        return ResponseEntity.ok(new AuthResponse(token, personId, mappedRole));
     }
 
     // REGISTRO
@@ -42,27 +56,7 @@ public class AuthController {
         return ResponseEntity.ok(registeredUser);
     }
 
-    // RECUPERAR: Paso 1 (Pedir token)
-    @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-        userService.requestPasswordReset(email).ifPresent(user -> {
-            // AQUÍ IRÍA EL ENVÍO DE CORREO REAL.
-            // Por ahora imprimimos en consola para que pruebes
-            System.out.println("------------------------------------------------");
-            System.out.println("TOKEN DE RECUPERACIÓN PARA " + email + ": " + user.getResetKey());
-            System.out.println("------------------------------------------------");
-        });
-        return ResponseEntity.ok("Si el correo existe, se han enviado instrucciones.");
-    }
-
-    // RECUPERAR: Paso 2 (Usar token y nueva contraseña)
-    @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody ResetRequest resetRequest) {
-        userService.completePasswordReset(resetRequest.getNewPassword(), resetRequest.getToken());
-        return ResponseEntity.ok("Contraseña actualizada correctamente.");
-    }
-
-    // Clases DTO internas para recibir datos limpios
+    // Clases DTO internas
     @lombok.Data
     public static class LoginRequest {
         private String login;
@@ -73,6 +67,8 @@ public class AuthController {
     @lombok.AllArgsConstructor
     public static class AuthResponse {
         private String token;
+        private Long personId;
+        private String role;
     }
 
     @lombok.Data

@@ -15,29 +15,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "bar_table") 
+@Table(name = "bar_table")
 public class BarraMesa implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_bar_table") 
+    @Column(name = "id_bar_table")
     private Long id;
 
     @NotNull
-    @Column(name = "avalabily", nullable = false)
-    private Boolean avalabily;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "availability", nullable = false)
+    private com.proyectoT.sena.models.enums.TableAvailability availability;
 
     @Column(name = "share")
     private Integer share;
 
-    
     @OneToMany(mappedBy = "barTable", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Orden> orders = new HashSet<>(); 
+    private Set<Orden> orders = new HashSet<>();
 
     @OneToMany(mappedBy = "barTable", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Reservacion> reservations = new HashSet<>(); 
+    private Set<Reservacion> reservations = new HashSet<>();
 }

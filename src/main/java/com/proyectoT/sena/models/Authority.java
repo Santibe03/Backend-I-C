@@ -27,7 +27,10 @@ public class Authority implements Serializable {
     private String name; // Ejemplo: ROLE_ADMIN, ROLE_USER
 
     // --- Relación con tabla intermedia ---
+    // --- Relación con tabla intermedia ---
     @OneToMany(mappedBy = "authority", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private Set<UserAuthority> userAuthorities = new HashSet<>();
 }

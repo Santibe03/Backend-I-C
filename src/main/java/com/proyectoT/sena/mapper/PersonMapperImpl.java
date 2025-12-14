@@ -18,7 +18,8 @@ public class PersonMapperImpl implements PersonMapper {
 
     @Override
     public PersonDTO toDto(Person entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         PersonDTO dto = new PersonDTO();
         dto.setId(entity.getId());
@@ -33,15 +34,18 @@ public class PersonMapperImpl implements PersonMapper {
         if (entity.getUser() != null)
             dto.setUserId(entity.getUser().getId());
 
-        if (entity.getDocumentType() != null)
+        if (entity.getDocumentType() != null) {
             dto.setDocumentTypeId(entity.getDocumentType().getId());
+            dto.setDocumentTypeName(entity.getDocumentType().getInitials());
+        }
 
         return dto;
     }
 
     @Override
     public Person toEntity(PersonDTO dto) {
-        if (dto == null) return null;
+        if (dto == null)
+            return null;
 
         Person p = new Person();
 
@@ -62,12 +66,11 @@ public class PersonMapperImpl implements PersonMapper {
 
         if (dto.getDocumentTypeId() != null) {
             TipoDocumento tipoDocumento = tipoDocumentoRepository.findById(dto.getDocumentTypeId())
-                .orElseThrow(() -> new RuntimeException("Tipo de documento no encontrado con id: " + dto.getDocumentTypeId()));
+                    .orElseThrow(() -> new RuntimeException(
+                            "Tipo de documento no encontrado con id: " + dto.getDocumentTypeId()));
             p.setDocumentType(tipoDocumento);
         }
 
         return p;
     }
 }
-
-

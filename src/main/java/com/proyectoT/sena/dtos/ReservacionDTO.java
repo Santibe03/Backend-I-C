@@ -19,9 +19,8 @@ public class ReservacionDTO {
     private Integer attendat;
 
     // Relaciones simplificadas
-    private PersonDTO person;
-    private CondicionDTO condicion;
-    private BarraMesaDTO barraMesa;
+    private Long personId; // ID of the person
+    private com.proyectoT.sena.models.enums.ReservationCondition condition;
+    private Long barTableId; // ID of the BarTable
 
 }
-

@@ -26,7 +26,7 @@ public class ReservacionController {
     // 📌 CREAR RESERVACIÓN
     // ----------------------------------------------------
     @PostMapping
-    public ResponseEntity<ReservacionDTO> create(@RequestBody ReservacionDTO dto) 
+    public ResponseEntity<ReservacionDTO> create(@RequestBody ReservacionDTO dto)
             throws URISyntaxException {
 
         if (dto.getId() != null) {
@@ -64,7 +64,7 @@ public class ReservacionController {
         Optional<ReservacionDTO> dto = reservacionService.findOne(id);
 
         return dto.map(ResponseEntity::ok)
-                  .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // ----------------------------------------------------
@@ -73,6 +73,15 @@ public class ReservacionController {
     @GetMapping
     public ResponseEntity<List<ReservacionDTO>> getAll() {
         List<ReservacionDTO> list = reservacionService.findAll();
+        return ResponseEntity.ok(list);
+    }
+
+    // ----------------------------------------------------
+    // 📌 OBTENER RESERVACIONES POR PERSONA
+    // ----------------------------------------------------
+    @GetMapping("/person/{id}")
+    public ResponseEntity<List<ReservacionDTO>> getByPersonId(@PathVariable Long id) {
+        List<ReservacionDTO> list = reservacionService.findByPersonId(id);
         return ResponseEntity.ok(list);
     }
 

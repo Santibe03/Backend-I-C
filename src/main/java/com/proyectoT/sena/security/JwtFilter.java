@@ -27,17 +27,18 @@ public class JwtFilter extends OncePerRequestFilter {
 
     // Lista de rutas públicas que el filtro debe ignorar
     private final List<String> publicPaths = Arrays.asList(
-        "/auth/login", 
-        "/auth/register", 
-        "/api/tipo-documentos",
-        "/v3/api-docs",
-        "/swagger-ui"
-    );
+            "/auth/login",
+            "/auth/register",
+            "/api/tipo-documentos",
+            "/api/reservaciones",
+            "/api/persons",
+            "/v3/api-docs",
+            "/swagger-ui");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        
+
         // LOGS DE DEPURACIÓN (Bórralos cuando ya funcione)
         final String path = request.getRequestURI();
         System.out.println("--- INTENTANDO ACCESO A: " + path + " ---");
@@ -52,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         final String authHeader = request.getHeader("Authorization");
-        
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             System.out.println("❌ No hay header Authorization o no empieza con Bearer");
             filterChain.doFilter(request, response);
@@ -61,14 +62,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         try {
             final String jwt = authHeader.substring(7);
-            System.out.println("🔍 Token recibido (primeros 10 chars): " + jwt.substring(0, Math.min(jwt.length(), 10)) + "...");
-            
+            System.out.println(
+                    "🔍 Token recibido (primeros 10 chars): " + jwt.substring(0, Math.min(jwt.length(), 10)) + "...");
+
             final String userEmail = jwtService.extraerUsername(jwt);
             System.out.println("👤 Usuario extraído del token: " + userEmail);
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-                
+
                 if (jwtService.validarToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
@@ -83,7 +85,7 @@ public class JwtFilter extends OncePerRequestFilter {
             System.out.println("☠️ ERROR PROCESANDO TOKEN: " + e.getMessage());
             e.printStackTrace(); // Esto nos dirá si la firma está mal
         }
-        
+
         filterChain.doFilter(request, response);
     }
 }

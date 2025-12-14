@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PersonRepository personRepository;
+    private final com.proyectoT.sena.repositoryes.AuthorityRepository authorityRepository; // Inject Authority Repo
     private final UserMapper userMapper;
     private final PersonMapper personMapper;
     private final PasswordEncoder passwordEncoder;
@@ -90,7 +91,33 @@ public class UserServiceImpl implements UserService {
         User userEntity = userMapper.toEntity(userDto);
         userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userEntity.setActivated(true); // O la lógica que prefieras
+
+        // Guardar primero para tener ID
         User savedUser = userRepository.save(userEntity);
+
+        // 1.5 Asignar Roles (Authorities) explícitamente
+        if (userDto.getAuthorities() != null && !userDto.getAuthorities().isEmpty()) {
+            userDto.getAuthorities().forEach(authName -> {
+                // Buscar la autoridad en DB
+                com.proyectoT.sena.models.Authority auth = authorityRepository.findById(authName)
+                        .orElseGet(() -> {
+                            // Si no existe, crearla (opcional, o lanzar error)
+                            com.proyectoT.sena.models.Authority newAuth = new com.proyectoT.sena.models.Authority();
+                            newAuth.setName(authName);
+                            return authorityRepository.save(newAuth);
+                        });
+
+                // Crear la relación UserAuthority
+                com.proyectoT.sena.models.UserAuthority userAuth = new com.proyectoT.sena.models.UserAuthority();
+                userAuth.setId(new com.proyectoT.sena.models.UserAuthorityId(savedUser.getId(), auth.getName()));
+                userAuth.setUser(savedUser);
+                userAuth.setAuthority(auth);
+
+                savedUser.getUserAuthorities().add(userAuth);
+            });
+            // Guardar cambios en usuario (y sus relaciones por Cascade)
+            userRepository.save(savedUser);
+        }
 
         // 2. Crear y guardar la persona, asociando el usuario
         PersonDTO personDto = dto.getPerson();
@@ -106,27 +133,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository.findOneByEmail(mail)
-            .filter(User::isActivated)
-            .map(user -> {
-                user.setResetKey(UUID.randomUUID().toString()); // Generar Token
-                user.setResetDate(Instant.now()); // Guardar fecha actual
-                return user; // El @Transactional guarda esto en DB
-            });
+                .filter(User::isActivated)
+                .map(user -> {
+                    user.setResetKey(UUID.randomUUID().toString()); // Generar Token
+                    user.setResetDate(Instant.now()); // Guardar fecha actual
+                    return user; // El @Transactional guarda esto en DB
+                });
     }
 
     @Override
     public User completePasswordReset(String newPassword, String key) {
         return userRepository.findOneByResetKey(key)
-            .filter(user -> user.getResetDate().isAfter(Instant.now().minus(24, ChronoUnit.HOURS))) // Validar 24h
-            .map(user -> {
-                user.setPassword(passwordEncoder.encode(newPassword));
-                user.setResetKey(null); // Borrar token usado
-                user.setResetDate(null);
-                return user;
-            })
-            .orElseThrow(() -> new RuntimeException("Token inválido o expirado"));
+                .filter(user -> user.getResetDate().isAfter(Instant.now().minus(24, ChronoUnit.HOURS))) // Validar 24h
+                .map(user -> {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                    user.setResetKey(null); // Borrar token usado
+                    user.setResetDate(null);
+                    return user;
+                })
+                .orElseThrow(() -> new RuntimeException("Token inválido o expirado"));
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findOneByEmail(email); // Ensure repository has this method or similar
     }
 }
-
-
-

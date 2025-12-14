@@ -40,7 +40,7 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
-    
+
     // --- NUEVO ---
     @Size(max = 50)
     @Column(name = "second_name", length = 50)
@@ -104,9 +104,13 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private Set<UserAuthority> userAuthorities = new HashSet<>();
 
     @OneToOne(mappedBy = "user")
     @JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private Person person;
 }

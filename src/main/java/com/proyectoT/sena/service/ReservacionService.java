@@ -15,6 +15,7 @@ public interface ReservacionService {
 
     List<ReservacionDTO> findAll();
 
+    List<ReservacionDTO> findByPersonId(Long personId);
+
     void delete(Long id);
 }
-

@@ -25,17 +25,17 @@ public class Condicion implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull 
+    @NotNull
     @Size(max = 20)
-    @Column(name = "condition_name", length = 20, nullable = false, unique = true) 
+    @Column(name = "condition_name", length = 20, nullable = false, unique = true)
     private String conditionName;
 
     @OneToMany(mappedBy = "condition", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Orden> orders = new HashSet<>(); 
+    private Set<Orden> orders = new HashSet<>();
 
-    
-    @OneToMany(mappedBy = "condition", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<Reservacion> reservations = new HashSet<>(); 
+    // @OneToMany(mappedBy = "condition", fetch = FetchType.LAZY)
+    // @JsonIgnore
+    // private Set<Reservacion> reservations = new HashSet<>();
+    // Commented out because Reservacion now uses Enum, not this Entity.
 }

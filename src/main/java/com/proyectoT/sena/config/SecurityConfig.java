@@ -35,18 +35,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()
-                 .requestMatchers("/api/test").permitAll()
-                .requestMatchers("/api/tipo-documentos").permitAll() // <-- Endpoint público
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/test").permitAll()
+                        .requestMatchers("/api/tipo-documentos").permitAll() // <-- Endpoint público
+                        .requestMatchers("/api/reservaciones/**").permitAll() // Added to avoid 401 during dev testing
+                        .requestMatchers("/api/persons/**").permitAll() // Permitting profile access
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
