@@ -10,7 +10,8 @@ public class FacturaMapperImpl implements FacturaMapper {
 
     @Override
     public FacturaDTO toDTO(Factura entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         FacturaDTO dto = new FacturaDTO();
 
@@ -24,9 +25,15 @@ public class FacturaMapperImpl implements FacturaMapper {
             dto.setPersonNombre(entity.getPerson().getFirstName() + " " + entity.getPerson().getFirstLastName());
         }
 
-        // Cantidad de productos
-        if (entity.getProductBills() != null) {
-            dto.setCantidadProductos(entity.getProductBills().size());
+        // Cantidad de productos - safely handle lazy loading
+        try {
+            if (entity.getProductBills() != null && org.hibernate.Hibernate.isInitialized(entity.getProductBills())) {
+                dto.setCantidadProductos(entity.getProductBills().size());
+            } else {
+                dto.setCantidadProductos(0);
+            }
+        } catch (Exception e) {
+            dto.setCantidadProductos(0);
         }
 
         return dto;
@@ -34,7 +41,8 @@ public class FacturaMapperImpl implements FacturaMapper {
 
     @Override
     public Factura toEntity(FacturaDTO dto) {
-        if (dto == null) return null;
+        if (dto == null)
+            return null;
 
         Factura entity = new Factura();
 
@@ -49,7 +57,8 @@ public class FacturaMapperImpl implements FacturaMapper {
 
     @Override
     public void updateEntityFromDTO(FacturaDTO dto, Factura entity) {
-        if (dto == null || entity == null) return;
+        if (dto == null || entity == null)
+            return;
 
         entity.setTotal(dto.getTotal());
         entity.setDate(dto.getDate());

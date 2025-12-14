@@ -20,11 +20,26 @@ public class InsumosProductoServiceImpl implements InsumosProductoService {
 
     private final InsumosProductRepository repository;
     private final InsumosProductoMapper mapper;
+    private final com.proyectoT.sena.repositoryes.ProductoRepository productoRepository;
+    private final com.proyectoT.sena.repositoryes.InsumoRepository insumoRepository;
 
     @Override
     public InsumosProductoDTO save(InsumosProductoDTO dto) {
         InsumosProducto entity = mapper.toEntity(dto);
+
+        // Manual entity resolution
+        if (dto.getProductId() != null) {
+            entity.setProduct(productoRepository.findById(dto.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado")));
+        }
+
+        if (dto.getInputId() != null) {
+            entity.setInput(insumoRepository.findById(dto.getInputId())
+                    .orElseThrow(() -> new RuntimeException("Insumo no encontrado")));
+        }
+
         entity = repository.save(entity);
+        repository.flush(); // Force write to DB
         return mapper.toDto(entity);
     }
 

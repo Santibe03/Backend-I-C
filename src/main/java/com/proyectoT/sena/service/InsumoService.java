@@ -16,4 +16,6 @@ public interface InsumoService {
     List<InsumoDTO> findAll();
 
     void delete(Long id);
+
+    void deductStock(Long id, Double amount);
 }

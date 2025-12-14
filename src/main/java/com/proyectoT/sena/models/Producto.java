@@ -13,9 +13,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Entity
-@Table(name = "product")
+@jakarta.persistence.Entity
+@jakarta.persistence.Table(name = "product")
+@lombok.Getter
+@lombok.Setter
+@lombok.EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +25,7 @@ public class Producto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
+    @lombok.EqualsAndHashCode.Include
     private Long id;
 
     @Size(max = 55)
@@ -34,6 +37,13 @@ public class Producto implements Serializable {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @Size(max = 255)
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "stock")
+    private Integer stock;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore

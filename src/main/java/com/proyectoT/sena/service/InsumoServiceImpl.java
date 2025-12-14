@@ -55,5 +55,17 @@ public class InsumoServiceImpl implements InsumoService {
     public void delete(Long id) {
         insumoRepository.deleteById(id);
     }
-}
 
+    @Override
+    public void deductStock(Long id, Double amount) {
+        Insumo insumo = insumoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Insumo no encontrado"));
+
+        if (insumo.getAmount() < amount) {
+            throw new RuntimeException("Stock insuficiente para el insumo: " + insumo.getInputName());
+        }
+
+        insumo.setAmount(insumo.getAmount() - amount);
+        insumoRepository.save(insumo);
+    }
+}

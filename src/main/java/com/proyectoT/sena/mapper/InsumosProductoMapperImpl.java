@@ -7,14 +7,15 @@ import com.proyectoT.sena.mapper.InsumosProductoMapper;
 import com.proyectoT.sena.models.InsumosProducto;
 import com.proyectoT.sena.models.Insumo;
 import com.proyectoT.sena.models.Producto;
-import com.proyectoT.sena.models.Medidas;
+import com.proyectoT.sena.models.Medida;
 
 @Component
 public class InsumosProductoMapperImpl implements InsumosProductoMapper {
 
     @Override
     public InsumosProductoDTO toDto(InsumosProducto entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         InsumosProductoDTO dto = new InsumosProductoDTO();
         dto.setId(entity.getId());
@@ -23,27 +24,25 @@ public class InsumosProductoMapperImpl implements InsumosProductoMapper {
         // INSUMO
         if (entity.getInput() != null) {
             dto.setInputId(entity.getInput().getId());
-            dto.setInputNombre(entity.getInput().getInputName()); // <-- nombre correcto
+            dto.setInputNombre(entity.getInput().getInputName());
         }
 
         // PRODUCTO
         if (entity.getProduct() != null) {
             dto.setProductId(entity.getProduct().getId());
-            dto.setProductName(entity.getProduct().getName()); // <-- name
+            dto.setProductName(entity.getProduct().getName());
         }
 
         // MEDIDAS
-        if (entity.getMeasure() != null) {
-            dto.setMeasureId(entity.getMeasure().getId());
-            dto.setMeasureNombre(entity.getMeasure().getMedNam()); // <-- medNam
-        }
+        dto.setMeasure(entity.getMeasure());
 
         return dto;
     }
 
     @Override
     public InsumosProducto toEntity(InsumosProductoDTO dto) {
-        if (dto == null) return null;
+        if (dto == null)
+            return null;
 
         InsumosProducto entity = new InsumosProducto();
         entity.setId(dto.getId());
@@ -64,11 +63,7 @@ public class InsumosProductoMapperImpl implements InsumosProductoMapper {
         }
 
         // MEDIDA
-        if (dto.getMeasureId() != null) {
-            Medidas med = new Medidas();
-            med.setId(dto.getMeasureId());
-            entity.setMeasure(med);
-        }
+        entity.setMeasure(dto.getMeasure());
 
         return entity;
     }

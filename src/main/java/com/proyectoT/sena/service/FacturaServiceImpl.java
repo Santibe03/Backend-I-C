@@ -75,7 +75,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     @Transactional(readOnly = true)
     public List<FacturaDTO> findAll() {
-        return facturaRepository.findAll()
+        return facturaRepository.findAllWithPerson()
                 .stream()
                 .map(facturaMapper::toDTO)
                 .collect(Collectors.toList());

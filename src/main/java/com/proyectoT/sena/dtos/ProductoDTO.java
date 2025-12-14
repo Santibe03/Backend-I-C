@@ -8,5 +8,8 @@ public class ProductoDTO {
     private String name;
     private Integer price;
     private String imageUrl;
-}
+    private String description;
 
+    // Stock calculado automáticamente basado en insumos disponibles y receta
+    private Integer calculatedStock;
+}

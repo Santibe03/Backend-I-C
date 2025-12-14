@@ -3,6 +3,7 @@ package com.proyectoT.sena.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.proyectoT.sena.models.Medida;
 
 @Data
 @AllArgsConstructor
@@ -15,8 +16,7 @@ public class IngresoInsumoDTO {
     private Long inputId;
     private String inputName;
 
-    private Long measureId;
-    private String measureName;
+    private com.proyectoT.sena.models.Medida measure;
 
     private Long incomeId;
 }

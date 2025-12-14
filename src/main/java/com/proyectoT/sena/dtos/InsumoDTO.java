@@ -3,6 +3,7 @@ package com.proyectoT.sena.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.proyectoT.sena.models.Medida;
 
 @Data
 @AllArgsConstructor
@@ -11,15 +12,15 @@ public class InsumoDTO {
 
     private Long id;
 
-    private String nombre;      // inputName
+    private String nombre; // inputName
     private String marca;
-    private Integer cantidad;   // current_stock
+    private Double cantidad; // current_stock
 
     // Relaciones representadas por ID
+    // Relaciones
     private Long categoriaId;
-    private Long medidaId;
+    private Medida medida;
 
-    // Campos opcionales descriptivos (si luego los necesitas)
+    // Campos opcionales
     private String categoriaNombre;
-    private String medidaNombre;
 }

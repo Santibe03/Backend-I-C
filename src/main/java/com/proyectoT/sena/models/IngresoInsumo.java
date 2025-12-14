@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "income_inputs") 
+@Table(name = "income_inputs")
 public class IngresoInsumo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,21 +25,17 @@ public class IngresoInsumo implements Serializable {
     @Column(name = "amount")
     private Integer amount;
 
-    
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "input_id", nullable = false)
-    private Insumo input; 
+    private Insumo input;
 
-    
-    @ManyToOne(optional = false)
-    @NotNull
-    @JoinColumn(name = "measure_id", nullable = false)
-    private Medidas measure; 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "measure")
+    private Medida measure;
 
-    
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "income_id", nullable = false)
-    private Ingresos income; 
+    private Ingresos income;
 }

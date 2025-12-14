@@ -35,17 +35,16 @@ public class Insumo implements Serializable {
     private String brand;
 
     @Column(name = "current_stock")
-    private Integer amount;
+    private Double amount;
 
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "category_id", nullable = false)
     private Categoria category;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JoinColumn(name = "measure_id", nullable = false)
-    private Medidas measure;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "measure")
+    private Medida measure;
 
     @OneToMany(mappedBy = "input", fetch = FetchType.LAZY)
     @JsonIgnore
