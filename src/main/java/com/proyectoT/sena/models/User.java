@@ -113,4 +113,10 @@ public class User implements Serializable {
     @lombok.ToString.Exclude
     @lombok.EqualsAndHashCode.Exclude
     private Person person;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
+    private Set<UserRestaurante> userRestaurantes = new HashSet<>();
 }

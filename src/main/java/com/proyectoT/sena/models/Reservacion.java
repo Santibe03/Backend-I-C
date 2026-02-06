@@ -46,4 +46,8 @@ public class Reservacion implements Serializable {
     @NotNull
     @JoinColumn(name = "bar_table_id", nullable = false)
     private BarraMesa barTable;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
 }

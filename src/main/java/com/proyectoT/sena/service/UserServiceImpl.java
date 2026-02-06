@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PersonMapper personMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RestauranteService restauranteService;
+    private final SolicitudAsociacionService solicitudService;
 
     @Override
     public UserDTO save(UserDTO dto) {
@@ -124,6 +126,19 @@ public class UserServiceImpl implements UserService {
         Person personEntity = personMapper.toEntity(personDto);
         personEntity.setUser(savedUser); // Asociar el usuario guardado
         personRepository.save(personEntity);
+
+        // 3. Manejar restaurante según tipoAsociacion
+        String tipoAsociacion = dto.getTipoAsociacion();
+
+        if ("CREAR_RESTAURANTE".equals(tipoAsociacion) && dto.getNuevoRestaurante() != null) {
+            // Crear restaurante y asociar automáticamente como administrador
+            restauranteService.crear(dto.getNuevoRestaurante(), savedUser.getId());
+        } else if ("ASOCIAR_RESTAURANTE".equals(tipoAsociacion) && dto.getRestauranteIdAsociar() != null) {
+            // Enviar solicitud de asociación
+            Boolean solicitarComoAdmin = dto.getSolicitarComoAdmin() != null ? dto.getSolicitarComoAdmin() : false;
+            solicitudService.enviarSolicitud(savedUser.getId(), dto.getRestauranteIdAsociar(), solicitarComoAdmin);
+        }
+        // Si es "NINGUNA" o null, no hacer nada (cliente normal)
 
         return userMapper.toDTO(savedUser);
     }

@@ -21,6 +21,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailsService;
+    private final com.proyectoT.sena.service.UserRestauranteService userRestauranteService;
 
     // LOGIN: Devuelve el Token JWT
     @PostMapping("/login")
@@ -46,7 +47,11 @@ public class AuthController {
         else if (role.contains("EMPLOYEE"))
             mappedRole = "employee";
 
-        return ResponseEntity.ok(new AuthResponse(token, personId, mappedRole));
+        // Obtener restaurantes del usuario
+        java.util.List<com.proyectoT.sena.dtos.UserRestauranteDTO> restaurantes = userRestauranteService
+                .obtenerRestaurantesPorUsuario(user.getId());
+
+        return ResponseEntity.ok(new AuthResponse(token, personId, mappedRole, restaurantes));
     }
 
     // REGISTRO
@@ -69,6 +74,7 @@ public class AuthController {
         private String token;
         private Long personId;
         private String role;
+        private java.util.List<com.proyectoT.sena.dtos.UserRestauranteDTO> restaurantes;
     }
 
     @lombok.Data
