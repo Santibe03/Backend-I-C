@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_person")
     private Long id;
 
@@ -57,10 +57,9 @@ public class Person {
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JoinColumn(name = "document_type_id")
-    private TipoDocumento documentType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "document_type", nullable = false)
+    private com.proyectoT.sena.models.enums.DocumentTypeEnum documentType;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     @JsonIgnore

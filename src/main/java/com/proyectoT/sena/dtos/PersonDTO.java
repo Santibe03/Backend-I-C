@@ -20,6 +20,5 @@ public class PersonDTO {
     private LocalDate bornDate;
 
     private Long userId;
-    private Long documentTypeId;
-    private String documentTypeName;
+    private String documentType;
 }

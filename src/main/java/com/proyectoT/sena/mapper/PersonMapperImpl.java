@@ -4,17 +4,13 @@ import org.springframework.stereotype.Component;
 
 import com.proyectoT.sena.dtos.PersonDTO;
 import com.proyectoT.sena.models.Person;
-import com.proyectoT.sena.models.TipoDocumento;
 import com.proyectoT.sena.models.User;
-import com.proyectoT.sena.repositoryes.TipoDocumentoRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class PersonMapperImpl implements PersonMapper {
-
-    private final TipoDocumentoRepository tipoDocumentoRepository;
 
     @Override
     public PersonDTO toDto(Person entity) {
@@ -35,8 +31,7 @@ public class PersonMapperImpl implements PersonMapper {
             dto.setUserId(entity.getUser().getId());
 
         if (entity.getDocumentType() != null) {
-            dto.setDocumentTypeId(entity.getDocumentType().getId());
-            dto.setDocumentTypeName(entity.getDocumentType().getInitials());
+            dto.setDocumentType(entity.getDocumentType().name());
         }
 
         return dto;
@@ -64,11 +59,13 @@ public class PersonMapperImpl implements PersonMapper {
             p.setUser(u);
         }
 
-        if (dto.getDocumentTypeId() != null) {
-            TipoDocumento tipoDocumento = tipoDocumentoRepository.findById(dto.getDocumentTypeId())
-                    .orElseThrow(() -> new RuntimeException(
-                            "Tipo de documento no encontrado con id: " + dto.getDocumentTypeId()));
-            p.setDocumentType(tipoDocumento);
+        if (dto.getDocumentType() != null) {
+            try {
+                p.setDocumentType(com.proyectoT.sena.models.enums.DocumentTypeEnum.valueOf(dto.getDocumentType()));
+            } catch (IllegalArgumentException e) {
+                // Manejar opcion invalida o dejar null
+                throw new RuntimeException("Tipo de documento inválido: " + dto.getDocumentType());
+            }
         }
 
         return p;

@@ -94,19 +94,21 @@ public class UserServiceImpl implements UserService {
         userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userEntity.setActivated(true); // O la lógica que prefieras
 
-        // Guardar primero para tener ID
-        User savedUser = userRepository.save(userEntity);
+        // Guardar primero y FLUSH para asegurar ID disponible para relaciones
+        User savedUser = userRepository.saveAndFlush(userEntity);
+        System.out.println("DEBUG: Usuario guardado con ID: " + savedUser.getId());
 
         // 1.5 Asignar Roles (Authorities) explícitamente
         if (userDto.getAuthorities() != null && !userDto.getAuthorities().isEmpty()) {
+            System.out.println("DEBUG: Asignando roles: " + userDto.getAuthorities());
             userDto.getAuthorities().forEach(authName -> {
                 // Buscar la autoridad en DB
                 com.proyectoT.sena.models.Authority auth = authorityRepository.findById(authName)
                         .orElseGet(() -> {
-                            // Si no existe, crearla (opcional, o lanzar error)
+                            System.out.println("DEBUG: Creando nueva autoridad: " + authName);
                             com.proyectoT.sena.models.Authority newAuth = new com.proyectoT.sena.models.Authority();
                             newAuth.setName(authName);
-                            return authorityRepository.save(newAuth);
+                            return authorityRepository.saveAndFlush(newAuth);
                         });
 
                 // Crear la relación UserAuthority
@@ -116,9 +118,12 @@ public class UserServiceImpl implements UserService {
                 userAuth.setAuthority(auth);
 
                 savedUser.getUserAuthorities().add(userAuth);
+                System.out.println("DEBUG: Rol " + auth.getName() + " añadido a " + savedUser.getLogin());
             });
-            // Guardar cambios en usuario (y sus relaciones por Cascade)
-            userRepository.save(savedUser);
+            // Guardar cambios finales
+            userRepository.saveAndFlush(savedUser);
+        } else {
+            System.out.println("DEBUG: El usuario no tiene roles definidos en el DTO");
         }
 
         // 2. Crear y guardar la persona, asociando el usuario

@@ -38,14 +38,19 @@ public class AuthController {
 
         Long personId = user.getPerson() != null ? user.getPerson().getId() : null;
 
-        String role = userDetails.getAuthorities().stream().findFirst().map(a -> a.getAuthority())
-                .orElse("ROLE_CLIENT");
-        // Simple mapping
+        // Mapeo robusto de roles
         String mappedRole = "client";
-        if (role.contains("ADMIN"))
+        java.util.Collection<? extends org.springframework.security.core.GrantedAuthority> authorities = userDetails
+                .getAuthorities();
+
+        boolean isAdmin = authorities.stream().anyMatch(a -> a.getAuthority().toUpperCase().contains("ADMIN"));
+        boolean isEmployee = authorities.stream().anyMatch(a -> a.getAuthority().toUpperCase().contains("EMPLOYEE"));
+
+        if (isAdmin) {
             mappedRole = "admin";
-        else if (role.contains("EMPLOYEE"))
+        } else if (isEmployee) {
             mappedRole = "employee";
+        }
 
         // Obtener restaurantes del usuario
         java.util.List<com.proyectoT.sena.dtos.UserRestauranteDTO> restaurantes = userRestauranteService
