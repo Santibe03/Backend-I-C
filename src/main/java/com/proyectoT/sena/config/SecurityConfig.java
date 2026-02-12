@@ -40,8 +40,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/test").permitAll()
-                        .requestMatchers("/api/tipo-documentos").permitAll() // <-- Endpoint público
-                        .requestMatchers("/api/reservaciones/**").permitAll() // Added to avoid 401 during dev testing
+                        .requestMatchers("/api/tipo-documentos").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/restaurantes/**").permitAll() // Permitir
+                                                                                                                      // ver
+                                                                                                                      // restaurantes
+                                                                                                                      // para
+                                                                                                                      // registro
+                        .requestMatchers("/api/reservaciones/**").permitAll()
                         .requestMatchers("/api/persons/**").permitAll() // Permitting profile access
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated())

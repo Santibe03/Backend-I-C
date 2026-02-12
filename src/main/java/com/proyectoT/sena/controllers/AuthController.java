@@ -56,7 +56,7 @@ public class AuthController {
         java.util.List<com.proyectoT.sena.dtos.UserRestauranteDTO> restaurantes = userRestauranteService
                 .obtenerRestaurantesPorUsuario(user.getId());
 
-        return ResponseEntity.ok(new AuthResponse(token, personId, mappedRole, restaurantes));
+        return ResponseEntity.ok(new AuthResponse(token, personId, user.getId(), mappedRole, restaurantes));
     }
 
     // REGISTRO
@@ -78,6 +78,7 @@ public class AuthController {
     public static class AuthResponse {
         private String token;
         private Long personId;
+        private Long userId; // <--- AGREGADO
         private String role;
         private java.util.List<com.proyectoT.sena.dtos.UserRestauranteDTO> restaurantes;
     }
