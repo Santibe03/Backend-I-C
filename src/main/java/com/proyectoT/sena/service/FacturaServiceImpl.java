@@ -10,8 +10,10 @@ import com.proyectoT.sena.dtos.FacturaDTO;
 import com.proyectoT.sena.mapper.FacturaMapper;
 import com.proyectoT.sena.models.Factura;
 import com.proyectoT.sena.models.Person;
+import com.proyectoT.sena.models.Restaurante;
 import com.proyectoT.sena.repositoryes.FacturaRepository;
 import com.proyectoT.sena.repositoryes.PersonRepository;
+import com.proyectoT.sena.repositoryes.RestauranteRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,7 @@ public class FacturaServiceImpl implements FacturaService {
 
     private final FacturaRepository facturaRepository;
     private final PersonRepository personRepository;
+    private final RestauranteRepository restauranteRepository;
     private final FacturaMapper facturaMapper;
 
     // ---------------------------------------------------------
@@ -38,6 +41,12 @@ public class FacturaServiceImpl implements FacturaService {
 
         // asignar relación
         entity.setPerson(person);
+
+        if (dto.getRestauranteId() != null) {
+            Restaurante restaurante = restauranteRepository.findById(dto.getRestauranteId())
+                    .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+            entity.setRestaurante(restaurante);
+        }
 
         facturaRepository.save(entity);
 
@@ -74,8 +83,8 @@ public class FacturaServiceImpl implements FacturaService {
     // ---------------------------------------------------------
     @Override
     @Transactional(readOnly = true)
-    public List<FacturaDTO> findAll() {
-        return facturaRepository.findAllWithPerson()
+    public List<FacturaDTO> findAll(Long restauranteId) {
+        return facturaRepository.findAllWithPersonByRestauranteId(restauranteId)
                 .stream()
                 .map(facturaMapper::toDTO)
                 .collect(Collectors.toList());

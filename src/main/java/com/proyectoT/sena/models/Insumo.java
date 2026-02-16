@@ -37,10 +37,10 @@ public class Insumo implements Serializable {
     @Column(name = "current_stock")
     private Double amount;
 
-    @ManyToOne(optional = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     @NotNull
-    @JoinColumn(name = "category_id", nullable = false)
-    private Categoria category;
+    private com.proyectoT.sena.models.enums.CategoriaEnum category;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "measure")
@@ -53,4 +53,8 @@ public class Insumo implements Serializable {
     @OneToMany(mappedBy = "input", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<InsumosProducto> productInputs = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
 }

@@ -42,8 +42,8 @@ public class FacturaController {
     // FIND ALL
     // ---------------------------------------------------------
     @GetMapping
-    public ResponseEntity<List<FacturaDTO>> findAll() {
-        return ResponseEntity.ok(facturaService.findAll());
+    public ResponseEntity<List<FacturaDTO>> findAll(@RequestParam Long restauranteId) {
+        return ResponseEntity.ok(facturaService.findAll(restauranteId));
     }
 
     // ---------------------------------------------------------

@@ -56,9 +56,22 @@ public class SolicitudAsociacionController {
     @PutMapping("/{id}/rechazar")
     public ResponseEntity<SolicitudAsociacionDTO> rechazar(
             @PathVariable Long id,
-            @RequestParam Long usuarioAprobadorId) {
-        SolicitudAsociacionDTO solicitud = solicitudService.rechazar(id, usuarioAprobadorId);
+            @RequestParam Long usuarioAprobadorId,
+            @RequestParam(required = false) String motivoRechazo) {
+        SolicitudAsociacionDTO solicitud = solicitudService.rechazar(id, usuarioAprobadorId, motivoRechazo);
         return ResponseEntity.ok(solicitud);
+    }
+
+    @GetMapping("/usuario/{userId}/rechazadas/no-leidas")
+    public ResponseEntity<List<SolicitudAsociacionDTO>> listarRechazadasNoLeidas(@PathVariable Long userId) {
+        List<SolicitudAsociacionDTO> solicitudes = solicitudService.listarRechazadasNoLeidas(userId);
+        return ResponseEntity.ok(solicitudes);
+    }
+
+    @PutMapping("/usuario/{userId}/marcar-leidas")
+    public ResponseEntity<Void> marcarComoLeidas(@PathVariable Long userId) {
+        solicitudService.marcarComoLeidas(userId);
+        return ResponseEntity.ok().build();
     }
 
     // Clase interna para el request body

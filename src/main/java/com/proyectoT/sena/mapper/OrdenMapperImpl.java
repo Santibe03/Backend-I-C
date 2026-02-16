@@ -9,7 +9,8 @@ public class OrdenMapperImpl implements OrdenMapper {
 
     @Override
     public OrdenDTO toDto(Orden entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         OrdenDTO dto = new OrdenDTO();
         dto.setId(entity.getId());
@@ -18,12 +19,9 @@ public class OrdenMapperImpl implements OrdenMapper {
         if (entity.getBarTable() != null) {
             dto.setBarraMesaId(entity.getBarTable().getId());
         }
-        
 
         if (entity.getCondition() != null) {
-            dto.setCondicionId(entity.getCondition().getId());
-            // Ajusta getNombre() al getter real de Condicion
-             dto.setCondicionNombre(entity.getCondition().getConditionName());
+            dto.setCondicion(entity.getCondition());
         }
 
         if (entity.getOrderProducts() != null) {
@@ -37,7 +35,8 @@ public class OrdenMapperImpl implements OrdenMapper {
 
     @Override
     public Orden toEntity(OrdenDTO dto) {
-        if (dto == null) return null;
+        if (dto == null)
+            return null;
 
         Orden entity = new Orden();
         entity.setId(dto.getId());
@@ -48,7 +47,8 @@ public class OrdenMapperImpl implements OrdenMapper {
 
     @Override
     public void updateEntityFromDTO(OrdenDTO dto, Orden entity) {
-        if (dto == null || entity == null) return;
+        if (dto == null || entity == null)
+            return;
         entity.setDate(dto.getDate());
         // relaciones se actualizan en el service
     }

@@ -35,7 +35,10 @@ public class BarraMesaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BarraMesaDTO>> getAll() {
+    public ResponseEntity<List<BarraMesaDTO>> getAll(@RequestParam(required = false) Long restauranteId) {
+        if (restauranteId != null) {
+            return ResponseEntity.ok(service.findAllByRestaurante(restauranteId));
+        }
         return ResponseEntity.ok(service.findAll());
     }
 

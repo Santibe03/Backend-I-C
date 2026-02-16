@@ -24,4 +24,6 @@ public class FacturaDTO {
 
     // Cantidad de productos asociados (opcional)
     private Integer cantidadProductos;
+
+    private Long restauranteId;
 }

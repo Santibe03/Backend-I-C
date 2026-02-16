@@ -36,6 +36,9 @@ public class SolicitudAsociacionMapper {
             dto.setUsuarioAprobadorId(entity.getUsuarioAprobador().getId());
         }
 
+        dto.setMotivoRechazo(entity.getMotivoRechazo());
+        dto.setLeida(entity.getLeida());
+
         return dto;
     }
 
@@ -50,6 +53,8 @@ public class SolicitudAsociacionMapper {
         entity.setEstado(dto.getEstado());
         entity.setFechaSolicitud(dto.getFechaSolicitud());
         entity.setFechaRespuesta(dto.getFechaRespuesta());
+        entity.setMotivoRechazo(dto.getMotivoRechazo());
+        entity.setLeida(dto.getLeida() != null ? dto.getLeida() : false);
 
         // Las relaciones se setean en el servicio
 

@@ -13,13 +13,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/insumos")
 @CrossOrigin(origins = "*")
+@lombok.RequiredArgsConstructor
 public class InsumoController {
 
     private final InsumoService insumoService;
-
-    public InsumoController(InsumoService insumoService) {
-        this.insumoService = insumoService;
-    }
 
     // Crear
     @PostMapping
@@ -41,13 +38,13 @@ public class InsumoController {
     public ResponseEntity<InsumoDTO> findOne(@PathVariable Long id) {
         Optional<InsumoDTO> dto = insumoService.findOne(id);
         return dto.map(ResponseEntity::ok)
-                  .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Obtener todos
     @GetMapping
-    public ResponseEntity<List<InsumoDTO>> findAll() {
-        return ResponseEntity.ok(insumoService.findAll());
+    public ResponseEntity<List<InsumoDTO>> findAll(@RequestParam Long restauranteId) {
+        return ResponseEntity.ok(insumoService.findAll(restauranteId));
     }
 
     // Eliminar

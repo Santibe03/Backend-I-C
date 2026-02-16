@@ -18,9 +18,9 @@ public class InsumoDTO {
 
     // Relaciones representadas por ID
     // Relaciones
-    private Long categoriaId;
+    // Relaciones
+    private com.proyectoT.sena.models.enums.CategoriaEnum categoria;
     private Medida medida;
 
-    // Campos opcionales
-    private String categoriaNombre;
+    private Long restauranteId;
 }

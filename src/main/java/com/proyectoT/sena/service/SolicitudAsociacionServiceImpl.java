@@ -51,6 +51,14 @@ public class SolicitudAsociacionServiceImpl implements SolicitudAsociacionServic
                 Restaurante restaurante = restauranteRepository.findById(restauranteId)
                                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
+                // Verificar si ya existe una solicitud PENDIENTE al mismo restaurante
+                List<SolicitudAsociacion> existentes = solicitudRepository
+                                .findByUsuarioSolicitanteIdAndRestauranteIdAndEstado(usuarioId, restauranteId,
+                                                "PENDIENTE");
+                if (!existentes.isEmpty()) {
+                        throw new RuntimeException("Ya tienes una solicitud pendiente en este restaurante");
+                }
+
                 SolicitudAsociacion solicitud = new SolicitudAsociacion();
                 solicitud.setUsuarioSolicitante(usuario);
                 solicitud.setRestaurante(restaurante);
@@ -90,7 +98,7 @@ public class SolicitudAsociacionServiceImpl implements SolicitudAsociacionServic
         }
 
         @Override
-        public SolicitudAsociacionDTO rechazar(Long solicitudId, Long usuarioAprobadorId) {
+        public SolicitudAsociacionDTO rechazar(Long solicitudId, Long usuarioAprobadorId, String motivoRechazo) {
                 SolicitudAsociacion solicitud = solicitudRepository.findById(solicitudId)
                                 .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
 
@@ -104,6 +112,8 @@ public class SolicitudAsociacionServiceImpl implements SolicitudAsociacionServic
                 solicitud.setEstado("RECHAZADA");
                 solicitud.setFechaRespuesta(Instant.now());
                 solicitud.setUsuarioAprobador(aprobador);
+                solicitud.setMotivoRechazo(motivoRechazo);
+                solicitud.setLeida(false);
 
                 SolicitudAsociacion updated = solicitudRepository.save(solicitud);
                 return solicitudMapper.toDTO(updated);
@@ -131,5 +141,23 @@ public class SolicitudAsociacionServiceImpl implements SolicitudAsociacionServic
                                 .stream()
                                 .map(solicitudMapper::toDTO)
                                 .collect(Collectors.toList());
+        }
+
+        @Override
+        public List<SolicitudAsociacionDTO> listarRechazadasNoLeidas(Long usuarioId) {
+                return solicitudRepository.findByUsuarioSolicitanteIdAndEstadoAndLeidaFalse(usuarioId, "RECHAZADA")
+                                .stream()
+                                .map(solicitudMapper::toDTO)
+                                .collect(Collectors.toList());
+        }
+
+        @Override
+        public void marcarComoLeidas(Long usuarioId) {
+                List<SolicitudAsociacion> noLeidas = solicitudRepository
+                                .findByUsuarioSolicitanteIdAndEstadoAndLeidaFalse(usuarioId, "RECHAZADA");
+                for (SolicitudAsociacion s : noLeidas) {
+                        s.setLeida(true);
+                }
+                solicitudRepository.saveAll(noLeidas);
         }
 }

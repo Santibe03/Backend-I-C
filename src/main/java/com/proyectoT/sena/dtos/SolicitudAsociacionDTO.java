@@ -20,4 +20,22 @@ public class SolicitudAsociacionDTO {
     private Instant fechaSolicitud;
     private Instant fechaRespuesta;
     private Long usuarioAprobadorId;
+    private String motivoRechazo;
+    private Boolean leida;
+
+    public String getMotivoRechazo() {
+        return motivoRechazo;
+    }
+
+    public void setMotivoRechazo(String motivoRechazo) {
+        this.motivoRechazo = motivoRechazo;
+    }
+
+    public Boolean getLeida() {
+        return leida;
+    }
+
+    public void setLeida(Boolean leida) {
+        this.leida = leida;
+    }
 }

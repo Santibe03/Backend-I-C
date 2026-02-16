@@ -13,7 +13,7 @@ public interface InsumoService {
 
     Optional<InsumoDTO> findOne(Long id);
 
-    List<InsumoDTO> findAll();
+    List<InsumoDTO> findAll(Long restauranteId);
 
     void delete(Long id);
 

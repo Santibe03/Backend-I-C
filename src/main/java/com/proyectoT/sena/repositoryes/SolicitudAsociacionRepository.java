@@ -17,4 +17,9 @@ public interface SolicitudAsociacionRepository extends JpaRepository<SolicitudAs
     List<SolicitudAsociacion> findByUsuarioSolicitanteId(Long userId);
 
     List<SolicitudAsociacion> findByRestauranteId(Long restauranteId);
+
+    List<SolicitudAsociacion> findByUsuarioSolicitanteIdAndEstadoAndLeidaFalse(Long userId, String estado);
+
+    List<SolicitudAsociacion> findByUsuarioSolicitanteIdAndRestauranteIdAndEstado(Long userId, Long restauranteId,
+            String estado);
 }

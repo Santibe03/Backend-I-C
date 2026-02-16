@@ -12,4 +12,6 @@ public class ProductoDTO {
 
     // Stock calculado automáticamente basado en insumos disponibles y receta
     private Integer calculatedStock;
+
+    private Long restauranteId;
 }

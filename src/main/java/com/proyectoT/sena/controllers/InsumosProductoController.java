@@ -27,15 +27,14 @@ public class InsumosProductoController {
     @PutMapping("/{id}")
     public ResponseEntity<InsumosProductoDTO> update(
             @PathVariable Long id,
-            @RequestBody InsumosProductoDTO dto
-    ) {
+            @RequestBody InsumosProductoDTO dto) {
         dto.setId(id);
         return ResponseEntity.ok(service.save(dto));
     }
 
     @GetMapping
-    public List<InsumosProductoDTO> getAll() {
-        return service.findAll();
+    public List<InsumosProductoDTO> getAll(@RequestParam(required = false) Long restauranteId) {
+        return service.findAll(restauranteId);
     }
 
     @GetMapping("/{id}")

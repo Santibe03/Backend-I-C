@@ -88,6 +88,20 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO registerUser(RegisterRequestDTO dto) {
+        // 1. Validar duplicados antes de procesar
+        if (userRepository.findOneByLogin(dto.getUser().getLogin()).isPresent()) {
+            throw new RuntimeException("El nombre de usuario ya está en uso");
+        }
+        if (userRepository.findOneByEmail(dto.getUser().getEmail()).isPresent()) {
+            throw new RuntimeException("El correo electrónico ya está en uso");
+        }
+        if (personRepository.existsByDocumentNumber(dto.getPerson().getDocumentNumber())) {
+            throw new RuntimeException("El número de documento ya está registrado");
+        }
+        if (personRepository.existsByPhoneNumber(dto.getPerson().getPhoneNumber())) {
+            throw new RuntimeException("El número de teléfono ya está registrado");
+        }
+
         // 1. Crear y guardar el usuario
         UserDTO userDto = dto.getUser();
         User userEntity = userMapper.toEntity(userDto);

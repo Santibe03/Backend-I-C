@@ -36,6 +36,10 @@ public class FacturaMapperImpl implements FacturaMapper {
             dto.setCantidadProductos(0);
         }
 
+        if (entity.getRestaurante() != null) {
+            dto.setRestauranteId(entity.getRestaurante().getId());
+        }
+
         return dto;
     }
 

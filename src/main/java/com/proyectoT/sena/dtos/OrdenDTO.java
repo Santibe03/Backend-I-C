@@ -14,10 +14,9 @@ public class OrdenDTO {
 
     // relaciones por id
     private Long barraMesaId;
-    private Long condicionId;
+    private com.proyectoT.sena.models.enums.CondicionEnum condicion;
 
     // campos opcionales para vistas
     private String barraMesaNombre;
-    private String condicionNombre;
     private Integer cantidadProductos;
 }

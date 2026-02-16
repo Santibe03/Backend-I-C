@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BarraMesaRepository extends JpaRepository<BarraMesa, Long> {
 
+    java.util.List<BarraMesa> findAllByRestauranteId(Long restauranteId);
+
 }

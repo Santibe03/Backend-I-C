@@ -10,10 +10,8 @@ import com.proyectoT.sena.dtos.OrdenDTO;
 import com.proyectoT.sena.mapper.OrdenMapper;
 import com.proyectoT.sena.models.Orden;
 import com.proyectoT.sena.models.BarraMesa;
-import com.proyectoT.sena.models.Condicion;
 import com.proyectoT.sena.repositoryes.OrdenRepository;
 import com.proyectoT.sena.repositoryes.MesaRepository;
-import com.proyectoT.sena.repositoryes.CondicionRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +22,7 @@ public class OrdenServiceImpl implements OrdenService {
 
     private final OrdenRepository ordenRepository;
     private final MesaRepository mesaRepository;
-    private final CondicionRepository condicionRepository;
+    // private final CondicionRepository condicionRepository; // Removed
     private final OrdenMapper ordenMapper;
 
     @Override
@@ -34,13 +32,12 @@ public class OrdenServiceImpl implements OrdenService {
         BarraMesa barra = mesaRepository.findById(dto.getBarraMesaId())
                 .orElseThrow(() -> new RuntimeException("Mesa no encontrada"));
 
-        Condicion condicion = condicionRepository.findById(dto.getCondicionId())
-                .orElseThrow(() -> new RuntimeException("Condición no encontrada"));
+        // Condicion se maneja via Enum en el Mapper/DTO directamente
 
         Orden entity = ordenMapper.toEntity(dto);
 
         entity.setBarTable(barra);
-        entity.setCondition(condicion);
+        // entity.setCondition(condicion); // Ya lo hace el mapper
 
         entity = ordenRepository.save(entity);
 
@@ -55,15 +52,13 @@ public class OrdenServiceImpl implements OrdenService {
         ordenMapper.updateEntityFromDTO(dto, existing);
 
         if (dto.getBarraMesaId() != null) {
-            BarraMesa barra = mesaRepository.findById(dto.getBarraMesaId())  // <-- CORREGIDO
+            BarraMesa barra = mesaRepository.findById(dto.getBarraMesaId())
                     .orElseThrow(() -> new RuntimeException("Mesa no encontrada"));
             existing.setBarTable(barra);
         }
 
-        if (dto.getCondicionId() != null) {
-            Condicion condicion = condicionRepository.findById(dto.getCondicionId())
-                    .orElseThrow(() -> new RuntimeException("Condición no encontrada"));
-            existing.setCondition(condicion);
+        if (dto.getCondicion() != null) {
+            existing.setCondition(dto.getCondicion());
         }
 
         existing = ordenRepository.save(existing);

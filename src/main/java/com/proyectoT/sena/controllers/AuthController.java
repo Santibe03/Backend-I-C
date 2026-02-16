@@ -66,6 +66,53 @@ public class AuthController {
         return ResponseEntity.ok(registeredUser);
     }
 
+    // RECUPERACIÓN DE CONTRASEÑA - Paso 1: Solicitar reset
+    @PostMapping("/request-password-reset")
+    public ResponseEntity<?> requestPasswordReset(@RequestBody java.util.Map<String, String> request) {
+        String email = request.get("email");
+
+        if (email == null || email.isBlank()) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", "Email es requerido"));
+        }
+
+        java.util.Optional<com.proyectoT.sena.models.User> user = userService.requestPasswordReset(email);
+
+        if (user.isPresent()) {
+            // En producción, aquí se enviaría un email
+            // Por ahora, mostramos el token en los logs
+            System.out.println("==============================================");
+            System.out.println("TOKEN DE RECUPERACIÓN GENERADO:");
+            System.out.println("Email: " + email);
+            System.out.println("Token: " + user.get().getResetKey());
+            System.out.println("==============================================");
+        }
+
+        // Siempre retornamos el mismo mensaje por seguridad (no revelar si el email
+        // existe)
+        return ResponseEntity.ok(java.util.Map.of(
+                "message",
+                "Si el correo existe en nuestro sistema, recibirás instrucciones para restablecer tu contraseña"));
+    }
+
+    // RECUPERACIÓN DE CONTRASEÑA - Paso 2: Restablecer con token
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody com.proyectoT.sena.dtos.PasswordResetDTO request) {
+        try {
+            com.proyectoT.sena.models.User user = userService.completePasswordReset(
+                    request.getNewPassword(),
+                    request.getKey());
+
+            System.out.println("Contraseña actualizada exitosamente para: " + user.getEmail());
+
+            return ResponseEntity.ok(java.util.Map.of(
+                    "message",
+                    "Contraseña actualizada exitosamente. Ya puedes iniciar sesión con tu nueva contraseña."));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of(
+                    "message", "Token inválido o expirado. Por favor, solicita un nuevo enlace de recuperación."));
+        }
+    }
+
     // Clases DTO internas
     @lombok.Data
     public static class LoginRequest {

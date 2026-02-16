@@ -85,6 +85,14 @@ public class ReservacionController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/restaurante/{id}")
+    public ResponseEntity<List<ReservacionDTO>> getByRestauranteId(@PathVariable Long id) {
+        System.out.println("=== CONTROLLER: Endpoint /api/reservaciones/restaurante/" + id + " llamado ===");
+        List<ReservacionDTO> list = reservacionService.findByRestauranteId(id);
+        System.out.println("=== CONTROLLER: Devolviendo " + list.size() + " reservaciones ===");
+        return ResponseEntity.ok(list);
+    }
+
     // ----------------------------------------------------
     // 📌 ELIMINAR UNA RESERVACIÓN
     // ----------------------------------------------------

@@ -12,6 +12,7 @@ import com.proyectoT.sena.mapper.ReservacionMapper;
 import com.proyectoT.sena.models.Reservacion;
 import com.proyectoT.sena.models.Person;
 import com.proyectoT.sena.models.BarraMesa;
+import com.proyectoT.sena.models.Restaurante;
 import com.proyectoT.sena.repositoryes.ReservacionRepository;
 import com.proyectoT.sena.repositoryes.PersonRepository;
 import com.proyectoT.sena.repositoryes.BarraMesaRepository;
@@ -37,6 +38,9 @@ public class ReservacionServiceImpl implements ReservacionService {
 
     @Override
     public ReservacionDTO save(ReservacionDTO dto) {
+        System.out.println("=== GUARDANDO RESERVACION ===");
+        System.out.println("DTO: personId=" + dto.getPersonId() + ", barTableId=" + dto.getBarTableId());
+
         Reservacion entity = reservacionMapper.toEntity(dto);
 
         if (dto.getPersonId() != null) {
@@ -48,10 +52,16 @@ public class ReservacionServiceImpl implements ReservacionService {
         if (dto.getBarTableId() != null) {
             BarraMesa barTable = barraMesaRepository.findById(dto.getBarTableId())
                     .orElseThrow(() -> new RuntimeException("BarTable not found"));
+            System.out.println("BarTable encontrada, restaurante: " +
+                    (barTable.getRestaurante() != null ? barTable.getRestaurante().getId() : "NULL"));
             entity.setBarTable(barTable);
+            entity.setRestaurante(barTable.getRestaurante());
+            System.out.println("Restaurante asignado a reservacion: " +
+                    (entity.getRestaurante() != null ? entity.getRestaurante().getId() : "NULL"));
         }
 
         entity = reservacionRepository.save(entity);
+        System.out.println("Reservacion guardada con ID: " + entity.getId());
         return reservacionMapper.toDto(entity);
     }
 
@@ -82,6 +92,8 @@ public class ReservacionServiceImpl implements ReservacionService {
             BarraMesa barTable = barraMesaRepository.findById(dto.getBarTableId())
                     .orElseThrow(() -> new RuntimeException("BarTable not found"));
             entity.setBarTable(barTable);
+            // Updating table might change restaurante, so update it too
+            entity.setRestaurante(barTable.getRestaurante());
         }
 
         // 4. Save
@@ -110,6 +122,23 @@ public class ReservacionServiceImpl implements ReservacionService {
     public List<ReservacionDTO> findByPersonId(Long personId) {
         return reservacionRepository.findByPerson_Id(personId) // Using the correct method name from repo
                 .stream()
+                .map(reservacionMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReservacionDTO> findByRestauranteId(Long restauranteId) {
+        System.out.println("=== BUSCANDO RESERVACIONES PARA RESTAURANTE ID: " + restauranteId + " ===");
+        List<Reservacion> reservaciones = reservacionRepository.findByRestaurante_Id(restauranteId);
+        System.out.println("Reservaciones encontradas: " + reservaciones.size());
+
+        for (Reservacion r : reservaciones) {
+            System.out.println("  - Reserva ID: " + r.getId() + ", Fecha: " + r.getReservationDate() +
+                    ", Restaurante: " + (r.getRestaurante() != null ? r.getRestaurante().getId() : "NULL"));
+        }
+
+        return reservaciones.stream()
                 .map(reservacionMapper::toDto)
                 .collect(Collectors.toList());
     }

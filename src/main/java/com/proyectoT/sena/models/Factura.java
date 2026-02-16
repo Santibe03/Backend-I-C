@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "bill") 
+@Table(name = "bill")
 public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,14 +32,16 @@ public class Factura implements Serializable {
     @Column(name = "date")
     private LocalDate date;
 
-    
     @ManyToOne(optional = false)
     @NotNull
     @JoinColumn(name = "person_id", nullable = false)
     private Person person; // Asume la clase Person
 
-    
     @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<ProductoFactura> productBills = new HashSet<>(); // Asume la clase ProductoFactura
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
 }

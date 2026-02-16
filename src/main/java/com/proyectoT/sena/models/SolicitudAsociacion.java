@@ -50,4 +50,11 @@ public class SolicitudAsociacion implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_aprobador_id")
     private User usuarioAprobador;
+
+    @Size(max = 255)
+    @Column(name = "motivo_rechazo", length = 255)
+    private String motivoRechazo;
+
+    @Column(name = "leida", nullable = false)
+    private Boolean leida = false;
 }

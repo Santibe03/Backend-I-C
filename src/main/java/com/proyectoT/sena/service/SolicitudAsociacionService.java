@@ -10,11 +10,15 @@ public interface SolicitudAsociacionService {
 
     SolicitudAsociacionDTO aprobar(Long solicitudId, Long usuarioAprobadorId);
 
-    SolicitudAsociacionDTO rechazar(Long solicitudId, Long usuarioAprobadorId);
+    SolicitudAsociacionDTO rechazar(Long solicitudId, Long usuarioAprobadorId, String motivoRechazo);
 
     List<SolicitudAsociacionDTO> listarPendientesPorRestaurante(Long restauranteId);
 
     List<SolicitudAsociacionDTO> listarPorUsuario(Long usuarioId);
 
     List<SolicitudAsociacionDTO> listarTodasPorRestaurante(Long restauranteId);
+
+    List<SolicitudAsociacionDTO> listarRechazadasNoLeidas(Long usuarioId);
+
+    void marcarComoLeidas(Long usuarioId);
 }

@@ -35,10 +35,10 @@ public class Orden implements Serializable {
     @JoinColumn(name = "bar_table_id", nullable = false)
     private BarraMesa barTable;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "condition_status")
     @NotNull
-    @JoinColumn(name = "condition_id", nullable = false)
-    private Condicion condition;
+    private com.proyectoT.sena.models.enums.CondicionEnum condition;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

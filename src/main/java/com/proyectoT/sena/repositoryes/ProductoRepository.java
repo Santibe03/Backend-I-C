@@ -10,4 +10,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
     @Query("SELECT p FROM Producto p LEFT JOIN FETCH p.productInputs pi LEFT JOIN FETCH pi.input WHERE p.id = :id")
     Optional<Producto> findByIdWithRecipe(@Param("id") Long id);
+
+    java.util.List<Producto> findByRestauranteId(Long restauranteId);
 }

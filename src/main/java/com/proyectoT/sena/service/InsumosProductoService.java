@@ -11,6 +11,8 @@ public interface InsumosProductoService {
 
     List<InsumosProductoDTO> findAll();
 
+    List<InsumosProductoDTO> findAll(Long restauranteId);
+
     Optional<InsumosProductoDTO> findOne(Long id);
 
     void delete(Long id);

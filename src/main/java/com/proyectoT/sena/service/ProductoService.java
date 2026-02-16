@@ -15,5 +15,5 @@ public interface ProductoService {
 
     ProductoDTO findById(Long id);
 
-    List<ProductoDTO> findAll();
+    List<ProductoDTO> findAll(Long restauranteId);
 }

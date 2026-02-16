@@ -15,6 +15,7 @@ public interface BarraMesaService {
 
     List<BarraMesaDTO> findAll();
 
+    List<BarraMesaDTO> findAllByRestaurante(Long restauranteId);
+
     void delete(Long id);
 }
-

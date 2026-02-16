@@ -9,7 +9,7 @@ public interface FacturaService {
 
     FacturaDTO update(FacturaDTO dto);
 
-    List<FacturaDTO> findAll();
+    List<FacturaDTO> findAll(Long restauranteId);
 
     FacturaDTO findById(Long id);
 

@@ -18,7 +18,9 @@ import com.proyectoT.sena.dtos.ProductoDTO;
 import com.proyectoT.sena.mapper.ProductoMapper;
 import com.proyectoT.sena.models.Producto;
 import com.proyectoT.sena.models.InsumosProducto;
+import com.proyectoT.sena.models.Restaurante;
 import com.proyectoT.sena.repositoryes.ProductoRepository;
+import com.proyectoT.sena.repositoryes.RestauranteRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +31,7 @@ public class ProductoServiceImpl implements ProductoService {
     private static final Logger log = LoggerFactory.getLogger(ProductoServiceImpl.class);
 
     private final ProductoRepository productoRepository;
+    private final RestauranteRepository restauranteRepository;
     private final ProductoMapper productoMapper;
 
     private final String UPLOAD_DIR = "uploads/productos/";
@@ -41,6 +44,12 @@ public class ProductoServiceImpl implements ProductoService {
             if (image != null && !image.isEmpty()) {
                 String fileName = saveImage(image);
                 product.setImageUrl(fileName);
+            }
+
+            if (dto.getRestauranteId() != null) {
+                Restaurante restaurante = restauranteRepository.findById(dto.getRestauranteId())
+                        .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                product.setRestaurante(restaurante);
             }
 
             return productoMapper.toDto(productoRepository.save(product));
@@ -83,11 +92,11 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductoDTO> findAll() {
-        log.info("=== CARGANDO TODOS LOS PRODUCTOS ===");
+    public List<ProductoDTO> findAll(Long restauranteId) {
+        log.info("=== CARGANDO TODOS LOS PRODUCTOS DEL RESTAURANTE {} ===", restauranteId);
 
         // Get all products with their recipes in one query
-        List<Producto> products = productoRepository.findAll();
+        List<Producto> products = productoRepository.findByRestauranteId(restauranteId);
 
         return products.stream()
                 .map(p -> {

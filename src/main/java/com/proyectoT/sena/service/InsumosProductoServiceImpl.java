@@ -54,6 +54,18 @@ public class InsumosProductoServiceImpl implements InsumosProductoService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<InsumosProductoDTO> findAll(Long restauranteId) {
+        if (restauranteId == null) {
+            return findAll();
+        }
+        return repository.findAllByProductRestauranteId(restauranteId)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<InsumosProductoDTO> findOne(Long id) {
         return repository.findById(id).map(mapper::toDto);
     }

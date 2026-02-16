@@ -40,4 +40,9 @@ public class BarraMesa implements Serializable {
     @OneToMany(mappedBy = "barTable", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Reservacion> reservations = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    @JsonIgnore
+    private Restaurante restaurante;
 }

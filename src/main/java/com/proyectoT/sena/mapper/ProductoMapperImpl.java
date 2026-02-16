@@ -19,6 +19,11 @@ public class ProductoMapperImpl implements ProductoMapper {
         dto.setName(entity.getName());
         dto.setPrice(entity.getPrice());
         dto.setImageUrl(entity.getImageUrl());
+        dto.setDescription(entity.getDescription());
+
+        if (entity.getRestaurante() != null) {
+            dto.setRestauranteId(entity.getRestaurante().getId());
+        }
 
         return dto;
     }
@@ -34,8 +39,8 @@ public class ProductoMapperImpl implements ProductoMapper {
         entity.setName(dto.getName());
         entity.setPrice(dto.getPrice());
         entity.setImageUrl(dto.getImageUrl());
+        entity.setDescription(dto.getDescription());
 
         return entity;
     }
 }
-

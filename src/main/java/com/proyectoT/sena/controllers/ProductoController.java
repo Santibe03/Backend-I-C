@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ProductoController {
 
     private final ProductoService service;
@@ -54,8 +55,8 @@ public class ProductoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductoDTO>> getAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<ProductoDTO>> getAll(@RequestParam Long restauranteId) {
+        return ResponseEntity.ok(service.findAll(restauranteId));
     }
 
     @DeleteMapping("/{id}")
