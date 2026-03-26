@@ -15,6 +15,7 @@ public class BarraMesaMapper {
         dto.setId(entity.getId());
         dto.setAvailability(entity.getAvailability());
         dto.setShare(entity.getShare());
+        dto.setNumber(entity.getNumber());
         if (entity.getRestaurante() != null) {
             dto.setRestauranteId(entity.getRestaurante().getId());
         }
@@ -29,6 +30,7 @@ public class BarraMesaMapper {
         entity.setId(dto.getId());
         entity.setAvailability(dto.getAvailability());
         entity.setShare(dto.getShare());
+        entity.setNumber(dto.getNumber());
 
         // No seteamos el Restaurante aquí - lo hace el Service
         // para evitar problemas de entidades transitorias

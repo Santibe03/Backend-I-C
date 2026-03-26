@@ -19,5 +19,5 @@ public class InsumosProductoDTO {
     private Long productId;
     private String productName; // Producto.name
 
-    private com.proyectoT.sena.models.Medida measure;
+    private Medida measure;
 }

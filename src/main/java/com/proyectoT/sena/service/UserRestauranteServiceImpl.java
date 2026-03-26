@@ -42,12 +42,29 @@ public class UserRestauranteServiceImpl implements UserRestauranteService {
         UserRestaurante existing = userRestauranteRepository.findById(id).orElse(null);
 
         if (existing != null) {
+            // Si se quiere activar como admin, verificar que no exceda el límite de 2
+            if (esAdministrador && !existing.getEsAdministrador()) {
+                if (userRestauranteRepository
+                        .countByIdRestauranteIdAndEsAdministradorTrueAndActivoTrue(restauranteId) >= 2) {
+                    throw new RuntimeException(
+                            "Ya se ha alcanzado el límite de administradores para este restaurante (máximo 2).");
+                }
+            }
             // Si existe pero está inactiva, reactivarla
             existing.setActivo(true);
             existing.setEsAdministrador(esAdministrador);
             existing.setFechaAsociacion(Instant.now());
             UserRestaurante saved = userRestauranteRepository.save(existing);
             return userRestauranteMapper.toDTO(saved);
+        }
+
+        // Verificar si se va a crear como administrador
+        if (esAdministrador) {
+            if (userRestauranteRepository
+                    .countByIdRestauranteIdAndEsAdministradorTrueAndActivoTrue(restauranteId) >= 2) {
+                throw new RuntimeException(
+                        "Ya se ha alcanzado el límite de administradores para este restaurante (máximo 2).");
+            }
         }
 
         // Crear nueva asociación
@@ -78,6 +95,14 @@ public class UserRestauranteServiceImpl implements UserRestauranteService {
         UserRestauranteId id = new UserRestauranteId(userId, restauranteId);
         UserRestaurante userRestaurante = userRestauranteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Asociación no encontrada"));
+
+        if (esAdministrador && !userRestaurante.getEsAdministrador()) {
+            if (userRestauranteRepository
+                    .countByIdRestauranteIdAndEsAdministradorTrueAndActivoTrue(restauranteId) >= 2) {
+                throw new RuntimeException(
+                        "Ya se ha alcanzado el límite de administradores para este restaurante (máximo 2).");
+            }
+        }
 
         userRestaurante.setEsAdministrador(esAdministrador);
         UserRestaurante saved = userRestauranteRepository.save(userRestaurante);

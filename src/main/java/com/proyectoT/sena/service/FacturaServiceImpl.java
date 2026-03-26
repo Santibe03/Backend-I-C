@@ -3,6 +3,7 @@ package com.proyectoT.sena.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +12,12 @@ import com.proyectoT.sena.mapper.FacturaMapper;
 import com.proyectoT.sena.models.Factura;
 import com.proyectoT.sena.models.Person;
 import com.proyectoT.sena.models.Restaurante;
+import com.proyectoT.sena.models.User;
 import com.proyectoT.sena.repositoryes.FacturaRepository;
 import com.proyectoT.sena.repositoryes.PersonRepository;
 import com.proyectoT.sena.repositoryes.RestauranteRepository;
+import com.proyectoT.sena.repositoryes.UserRepository;
+import com.proyectoT.sena.repositoryes.UserRestauranteRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +28,8 @@ public class FacturaServiceImpl implements FacturaService {
     private final FacturaRepository facturaRepository;
     private final PersonRepository personRepository;
     private final RestauranteRepository restauranteRepository;
+    private final UserRepository userRepository;
+    private final UserRestauranteRepository userRestauranteRepository;
     private final FacturaMapper facturaMapper;
 
     // ---------------------------------------------------------
@@ -31,6 +37,8 @@ public class FacturaServiceImpl implements FacturaService {
     // ---------------------------------------------------------
     @Override
     public FacturaDTO create(FacturaDTO dto) {
+        // Validar asociación del empleado con el restaurante
+        validateUserRestauranteAssociation(dto.getRestauranteId());
 
         // validar persona
         Person person = personRepository.findById(dto.getPersonId())
@@ -62,6 +70,9 @@ public class FacturaServiceImpl implements FacturaService {
         Factura existing = facturaRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
 
+        // Validar asociación del empleado con el restaurante de la factura
+        validateUserRestauranteAssociation(existing.getRestaurante().getId());
+
         // actualizar campos simples
         facturaMapper.updateEntityFromDTO(dto, existing);
 
@@ -84,6 +95,9 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     @Transactional(readOnly = true)
     public List<FacturaDTO> findAll(Long restauranteId) {
+        // Validar asociación
+        validateUserRestauranteAssociation(restauranteId);
+
         return facturaRepository.findAllWithPersonByRestauranteId(restauranteId)
                 .stream()
                 .map(facturaMapper::toDTO)
@@ -99,6 +113,9 @@ public class FacturaServiceImpl implements FacturaService {
         Factura factura = facturaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
 
+        // Validar asociación
+        validateUserRestauranteAssociation(factura.getRestaurante().getId());
+
         return facturaMapper.toDTO(factura);
     }
 
@@ -107,9 +124,32 @@ public class FacturaServiceImpl implements FacturaService {
     // ---------------------------------------------------------
     @Override
     public void delete(Long id) {
-        if (!facturaRepository.existsById(id)) {
-            throw new RuntimeException("Factura no encontrada");
-        }
+        Factura existing = facturaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+
+        // Validar asociación
+        validateUserRestauranteAssociation(existing.getRestaurante().getId());
+
         facturaRepository.deleteById(id);
+    }
+
+    /**
+     * Valida que el usuario autenticado esté asociado activamente al restaurante.
+     */
+    private void validateUserRestauranteAssociation(Long restauranteId) {
+        if (restauranteId == null) {
+            throw new RuntimeException("El ID del restaurante es obligatorio");
+        }
+
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findOneByLogin(login)
+                .orElseThrow(() -> new RuntimeException("Usuario autenticado no encontrado"));
+
+        boolean isAssociated = userRestauranteRepository.existsByIdUserIdAndIdRestauranteIdAndActivoTrue(user.getId(),
+                restauranteId);
+
+        if (!isAssociated) {
+            throw new RuntimeException("No tiene permisos para gestionar facturas en este restaurante.");
+        }
     }
 }

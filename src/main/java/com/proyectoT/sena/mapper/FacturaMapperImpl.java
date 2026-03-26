@@ -49,7 +49,6 @@ public class FacturaMapperImpl implements FacturaMapper {
             return null;
 
         Factura entity = new Factura();
-
         entity.setId(dto.getId());
         entity.setTotal(dto.getTotal());
         entity.setDate(dto.getDate());

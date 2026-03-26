@@ -15,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "bar_table")
+@Table(name = "bar_table", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "restaurante_id", "number" })
+})
 public class BarraMesa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +34,9 @@ public class BarraMesa implements Serializable {
 
     @Column(name = "share")
     private Integer share;
+
+    @Column(name = "number")
+    private Integer number;
 
     @OneToMany(mappedBy = "barTable", fetch = FetchType.LAZY)
     @JsonIgnore

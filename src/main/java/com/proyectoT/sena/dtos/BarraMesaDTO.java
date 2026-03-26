@@ -14,6 +14,7 @@ public class BarraMesaDTO {
     private Long id;
     private com.proyectoT.sena.models.enums.TableAvailability availability;
     private Integer share;
+    private Integer number;
     private Long restauranteId;
 
     // Explicit getter/setter to ensure compilation

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.proyectoT.sena.models.Medida;
+import com.proyectoT.sena.models.enums.CategoriaEnum;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class InsumoDTO {
     // Relaciones representadas por ID
     // Relaciones
     // Relaciones
-    private com.proyectoT.sena.models.enums.CategoriaEnum categoria;
+    private CategoriaEnum categoria;
     private Medida medida;
 
     private Long restauranteId;

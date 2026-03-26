@@ -28,8 +28,8 @@ public class BarraMesaServiceImpl implements BarraMesaService {
     @Override
     public BarraMesaDTO save(BarraMesaDTO dto) {
         log.info("=== GUARDANDO MESA ===");
-        log.info("DTO recibido: availability={}, share={}, restauranteId={}",
-                dto.getAvailability(), dto.getShare(), dto.getRestauranteId());
+        log.info("DTO recibido: availability={}, share={}, number={}, restauranteId={}",
+                dto.getAvailability(), dto.getShare(), dto.getNumber(), dto.getRestauranteId());
 
         BarraMesa mesa = mapper.toEntity(dto);
         log.info("Mesa mapeada: availability={}, share={}", mesa.getAvailability(), mesa.getShare());
@@ -66,6 +66,7 @@ public class BarraMesaServiceImpl implements BarraMesaService {
         // Update only the fields that should change
         existingMesa.setAvailability(dto.getAvailability());
         existingMesa.setShare(dto.getShare());
+        existingMesa.setNumber(dto.getNumber());
         // DO NOT change the restaurante - keep the existing one
 
         existingMesa = repository.save(existingMesa);

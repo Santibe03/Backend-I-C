@@ -3,6 +3,7 @@ package com.proyectoT.sena.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.proyectoT.sena.dtos.FacturaDTO;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/facturas")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
+@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
 public class FacturaController {
 
     private final FacturaService facturaService;
