@@ -1,0 +1,217 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.proyectoT:sena >-------------------------
+[INFO] Building sena 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.1.5:run (default-cli) > test-compile @ sena >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ sena ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ sena ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ sena ---
+[INFO] skip non existing resourceDirectory C:\Users\User\Downloads\ProyectoNelson\ProyectoNelson\Backend-I-C\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ sena ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot:3.1.5:run (default-cli) < test-compile @ sena <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.1.5:run (default-cli) @ sena ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.5)
+
+2026-03-22T12:11:57.206-05:00  INFO 8724 --- [  restartedMain] com.proyectoT.sena.SenaApplication       : Starting SenaApplication using Java 21.0.8 with PID 8724 (C:\Users\User\Downloads\ProyectoNelson\ProyectoNelson\Backend-I-C\target\classes started by User in C:\Users\User\Downloads\ProyectoNelson\ProyectoNelson\Backend-I-C)
+2026-03-22T12:11:57.207-05:00 DEBUG 8724 --- [  restartedMain] com.proyectoT.sena.SenaApplication       : Running with Spring Boot v3.1.5, Spring v6.0.13
+2026-03-22T12:11:57.208-05:00  INFO 8724 --- [  restartedMain] com.proyectoT.sena.SenaApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-03-22T12:11:57.242-05:00  INFO 8724 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-22T12:11:57.242-05:00  INFO 8724 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-22T12:11:58.067-05:00  INFO 8724 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-22T12:11:58.173-05:00  INFO 8724 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 18 JPA repository interfaces.
+2026-03-22T12:11:58.753-05:00  INFO 8724 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2026-03-22T12:11:58.763-05:00  INFO 8724 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-22T12:11:58.764-05:00  INFO 8724 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2026-03-22T12:11:58.825-05:00  INFO 8724 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-03-22T12:11:58.826-05:00  INFO 8724 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1583 ms
+2026-03-22T12:11:59.016-05:00  INFO 8724 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-22T12:11:59.056-05:00  INFO 8724 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2026-03-22T12:11:59.059-05:00  INFO 8724 --- [  restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2026-03-22T12:11:59.242-05:00  INFO 8724 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-22T12:11:59.260-05:00  INFO 8724 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-22T12:11:59.476-05:00  INFO 8724 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3861321c
+2026-03-22T12:11:59.477-05:00  INFO 8724 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-22T12:12:00.473-05:00  INFO 8724 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-22T12:12:00.629-05:00  INFO 8724 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-22T12:12:00.908-05:00 DEBUG 8724 --- [  restartedMain] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-03-22T12:12:00.909-05:00 DEBUG 8724 --- [  restartedMain] com.proyectoT.sena.security.JwtFilter    : Filter 'jwtFilter' configured for use
+2026-03-22T12:12:01.141-05:00  INFO 8724 --- [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-22T12:12:01.711-05:00  WARN 8724 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-22T12:12:01.813-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.AuthController:
+	{POST [/auth/register]}: register(RegisterRequestDTO)
+	{POST [/auth/request-password-reset]}: requestPasswordReset(Map)
+	{POST [/auth/login]}: login(LoginRequest)
+	{POST [/auth/reset-password]}: resetPassword(PasswordResetDTO)
+2026-03-22T12:12:01.815-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.BarraMesaController:
+	{PUT [/api/barra-mesa/{id}]}: update(Long,BarraMesaDTO)
+	{DELETE [/api/barra-mesa/{id}]}: delete(Long)
+	{POST [/api/barra-mesa]}: create(BarraMesaDTO)
+	{GET [/api/barra-mesa]}: getAll(Long)
+	{GET [/api/barra-mesa/{id}]}: getOne(Long)
+2026-03-22T12:12:01.816-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.FacturaController:
+	{PUT [/api/facturas/{id}]}: update(Long,FacturaDTO)
+	{DELETE [/api/facturas/{id}]}: delete(Long)
+	{POST [/api/facturas]}: create(FacturaDTO)
+	{GET [/api/facturas]}: findAll(Long)
+	{GET [/api/facturas/{id}]}: findById(Long)
+2026-03-22T12:12:01.816-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.IngresoController:
+	{PUT [/api/ingreso]}: update(IngresoDTO)
+	{DELETE [/api/ingreso/{id}]}: delete(Long)
+	{POST [/api/ingreso]}: create(IngresoDTO)
+	{GET [/api/ingreso]}: getAll()
+	{GET [/api/ingreso/{id}]}: getById(Long)
+2026-03-22T12:12:01.818-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.IngresoInsumoController:
+	{PUT [/api/income-inputs/{id}]}: update(Long,IngresoInsumoDTO)
+	{DELETE [/api/income-inputs/{id}]}: delete(Long)
+	{POST [/api/income-inputs]}: create(IngresoInsumoDTO)
+	{GET [/api/income-inputs]}: getAll()
+	{GET [/api/income-inputs/{id}]}: getOne(Long)
+2026-03-22T12:12:01.818-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.InsumoController:
+	{PUT [/api/insumos/{id}]}: update(Long,InsumoDTO)
+	{DELETE [/api/insumos/{id}]}: delete(Long)
+	{POST [/api/insumos]}: create(InsumoDTO)
+	{GET [/api/insumos]}: findAll(Long)
+	{GET [/api/insumos/{id}]}: findOne(Long)
+2026-03-22T12:12:01.819-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.InsumosProductoController:
+	{PUT [/api/insumos-producto/{id}]}: update(Long,InsumosProductoDTO)
+	{DELETE [/api/insumos-producto/{id}]}: delete(Long)
+	{POST [/api/insumos-producto]}: create(InsumosProductoDTO)
+	{GET [/api/insumos-producto]}: getAll(Long)
+	{GET [/api/insumos-producto/{id}]}: getOne(Long)
+2026-03-22T12:12:01.820-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.OrdenController:
+	{PUT [/api/ordenes/{id}]}: update(Long,OrdenDTO)
+	{DELETE [/api/ordenes/{id}]}: delete(Long)
+	{POST [/api/ordenes]}: create(OrdenDTO)
+	{GET [/api/ordenes]}: findAll()
+	{GET [/api/ordenes/{id}]}: findById(Long)
+2026-03-22T12:12:01.820-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.OrdenProductoController:
+	{PUT [/api/orden-producto/{id}]}: update(Long,OrdenProductoDTO)
+	{DELETE [/api/orden-producto/{id}]}: delete(Long)
+	{POST [/api/orden-producto]}: create(OrdenProductoDTO)
+	{GET [/api/orden-producto]}: findAll()
+	{GET [/api/orden-producto/{id}]}: findOne(Long)
+2026-03-22T12:12:01.821-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.PersonController:
+	{GET [/api/persons/{id}]}: getPerson(Long)
+	{POST [/api/persons]}: createPerson(PersonDTO)
+	{DELETE [/api/persons/{id}]}: deletePerson(Long)
+	{GET [/api/persons]}: getAllPersons()
+	{PUT [/api/persons/{id}]}: updatePerson(Long,PersonDTO)
+2026-03-22T12:12:01.823-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.ProductoController:
+	{PUT [/api/productos/{id}], consumes [multipart/form-data]}: update(Long,String,MultipartFile)
+	{DELETE [/api/productos/{id}]}: delete(Long)
+	{POST [/api/productos], consumes [multipart/form-data]}: create(String,MultipartFile)
+	{GET [/api/productos]}: getAll(Long)
+	{GET [/api/productos/{id}]}: getById(Long)
+2026-03-22T12:12:01.825-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.ProductoFacturaController:
+	{PUT [/api/producto-factura/{id}]}: update(Long,ProductoFacturaDTO)
+	{DELETE [/api/producto-factura/{id}]}: delete(Long)
+	{POST [/api/producto-factura]}: create(ProductoFacturaDTO)
+	{GET [/api/producto-factura]}: findAll()
+	{GET [/api/producto-factura/{id}]}: findOne(Long)
+2026-03-22T12:12:01.826-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.ReservacionController:
+	{PUT [/api/reservaciones/{id}]}: update(Long,ReservacionDTO)
+	{DELETE [/api/reservaciones/{id}]}: delete(Long)
+	{POST [/api/reservaciones]}: create(ReservacionDTO)
+	{GET [/api/reservaciones]}: getAll()
+	{GET [/api/reservaciones/{id}]}: getOne(Long)
+	{GET [/api/reservaciones/person/{id}]}: getByPersonId(Long)
+	{GET [/api/reservaciones/restaurante/{id}]}: getByRestauranteId(Long)
+2026-03-22T12:12:01.827-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.RestauranteController:
+	{GET [/api/restaurantes/search]}: buscar(String)
+	{POST [/api/restaurantes]}: crear(RestauranteDTO,Long)
+	{GET [/api/restaurantes]}: listar()
+	{PUT [/api/restaurantes/{id}]}: actualizar(Long,RestauranteDTO)
+	{DELETE [/api/restaurantes/{id}]}: desactivar(Long)
+	{GET [/api/restaurantes/{id}]}: obtenerPorId(Long)
+	{GET [/api/restaurantes/usuario/{userId}]}: listarPorUsuario(Long)
+2026-03-22T12:12:01.828-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.SolicitudAsociacionController:
+	{GET [/api/solicitudes/restaurante/{restauranteId}]}: listarPorRestaurante(Long)
+	{GET [/api/solicitudes/usuario/{userId}/rechazadas/no-leidas]}: listarRechazadasNoLeidas(Long)
+	{PUT [/api/solicitudes/{id}/aprobar]}: aprobar(Long,Long)
+	{PUT [/api/solicitudes/{id}/rechazar]}: rechazar(Long,Long,String)
+	{POST [/api/solicitudes]}: enviar(SolicitudRequest)
+	{GET [/api/solicitudes/restaurante/{restauranteId}/pendientes]}: listarPendientes(Long)
+	{PUT [/api/solicitudes/usuario/{userId}/marcar-leidas]}: marcarComoLeidas(Long)
+	{GET [/api/solicitudes/usuario/{userId}]}: listarPorUsuario(Long)
+2026-03-22T12:12:01.828-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.TestController:
+	{GET [/api/test]}: probarConexion()
+2026-03-22T12:12:01.829-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.UserController:
+	{PUT [/api/users/{id}]}: update(Long,UserDTO)
+	{DELETE [/api/users/{id}]}: delete(Long)
+	{POST [/api/users]}: create(UserDTO)
+	{GET [/api/users]}: getAll()
+	{GET [/api/users/{id}]}: getById(Long)
+2026-03-22T12:12:01.829-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	c.p.s.c.UserRestauranteController:
+	{GET [/api/user-restaurantes/restaurante/{restauranteId}]}: obtenerPorRestaurante(Long)
+	{DELETE [/api/user-restaurantes/{userId}/{restauranteId}]}: remover(Long,Long)
+	{GET [/api/user-restaurantes/usuario/{userId}]}: obtenerPorUsuario(Long)
+	{PUT [/api/user-restaurantes/{userId}/{restauranteId}/permisos]}: cambiarPermisos(Long,Long,Boolean)
+2026-03-22T12:12:01.831-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	{ [/error]}: error(HttpServletRequest)
+	{ [/error], produces [text/html]}: errorHtml(HttpServletRequest,HttpServletResponse)
+2026-03-22T12:12:01.839-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	o.s.w.a.OpenApiWebMvcResource:
+	{GET [/v3/api-docs.yaml], produces [application/vnd.oai.openapi]}: openapiYaml(HttpServletRequest,String,Locale)
+	{GET [/v3/api-docs], produces [application/json]}: openapiJson(HttpServletRequest,String,Locale)
+2026-03-22T12:12:01.840-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	o.s.w.u.SwaggerWelcomeWebMvc:
+	{GET [/swagger-ui.html]}: redirectToUi(HttpServletRequest)
+2026-03-22T12:12:01.840-05:00 TRACE 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 
+	o.s.w.u.SwaggerConfigResource:
+	{GET [/v3/api-docs/swagger-config], produces [application/json]}: openapiJson(HttpServletRequest)
+2026-03-22T12:12:01.842-05:00 DEBUG 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 97 mappings in 'requestMappingHandlerMapping'
+2026-03-22T12:12:01.849-05:00 DEBUG 8724 --- [  restartedMain] o.s.w.s.h.BeanNameUrlHandlerMapping      : Detected 0 mappings in 'beanNameHandlerMapping'
+2026-03-22T12:12:01.899-05:00 TRACE 8724 --- [  restartedMain] o.s.w.s.f.support.RouterFunctionMapping  : 0 RouterFunction(s) in 'routerFunctionMapping'
+2026-03-22T12:12:01.908-05:00 TRACE 8724 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped [/webjars/**] onto ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-03-22T12:12:01.909-05:00 TRACE 8724 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped [/**] onto ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-03-22T12:12:01.909-05:00 TRACE 8724 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped [/swagger-ui*/*swagger-initializer.js] onto ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-03-22T12:12:01.909-05:00 TRACE 8724 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped [/swagger-ui*/**] onto ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2026-03-22T12:12:01.909-05:00 DEBUG 8724 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2026-03-22T12:12:01.970-05:00  INFO 8724 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2026-03-22T12:12:02.008-05:00  INFO 8724 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@73d191f0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@16025149, org.springframework.security.web.context.SecurityContextHolderFilter@33322509, org.springframework.security.web.header.HeaderWriterFilter@521a07b9, org.springframework.web.filter.CorsFilter@542d361d, org.springframework.security.web.authentication.logout.LogoutFilter@362b4b2f, com.proyectoT.sena.security.JwtFilter@4377fbaa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6a34b2ab, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@9f917d6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1a92bf53, org.springframework.security.web.session.SessionManagementFilter@7296478e, org.springframework.security.web.access.ExceptionTranslationFilter@ad85d3b, org.springframework.security.web.access.intercept.AuthorizationFilter@58b7b02b]
+2026-03-22T12:12:02.057-05:00 DEBUG 8724 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-03-22T12:12:02.086-05:00 DEBUG 8724 --- [  restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-03-22T12:12:02.245-05:00  INFO 8724 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-03-22T12:12:02.301-05:00  INFO 8724 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2026-03-22T12:12:02.318-05:00  INFO 8724 --- [  restartedMain] com.proyectoT.sena.SenaApplication       : Started SenaApplication in 5.359 seconds (process running for 5.712)
